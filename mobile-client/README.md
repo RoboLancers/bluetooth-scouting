@@ -1,0 +1,3 @@
+# **Lancer Scout Mobile Client**
+
+Setup instructions...
