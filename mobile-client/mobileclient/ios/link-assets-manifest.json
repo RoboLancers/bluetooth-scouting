@@ -1,0 +1,165 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Open_Sans/OFL.txt",
+      "sha1": "41d2e2210707992838e3e956f4ab6a9dc1805686"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/OpenSans-Italic-VariableFont_wdth,wght.ttf",
+      "sha1": "c9bbed35fd86891c986d21c9bc3d258a5a260218"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf",
+      "sha1": "8c03eba04459415261e441e255441d6f5c1ff1da"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/README.txt",
+      "sha1": "0ec78b4bce755d69d8b26fb599a21767824a3afa"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-Bold.ttf",
+      "sha1": "c23ede86996d8239865bcd04c806e3789aaa0b94"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-BoldItalic.ttf",
+      "sha1": "21bb3301498eea8b9c5abb1e8a065276105981a0"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-ExtraBold.ttf",
+      "sha1": "d26cd8614e40a2dda56953b863e255f1c798c245"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-ExtraBoldItalic.ttf",
+      "sha1": "761181538f88bb8cb16fac503b634e92df17f374"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-Italic.ttf",
+      "sha1": "051b6b2acbd0e33252870dc28045ba27ae0acd77"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-Light.ttf",
+      "sha1": "448dbc1e8add1538f788c9e34cdb701ed25ac993"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-LightItalic.ttf",
+      "sha1": "96925397a2560a1de4cf0984591a37f62aa6e8bb"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-Medium.ttf",
+      "sha1": "f886dd439250f2a8a7326f3f6b433adf34c96fe8"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-MediumItalic.ttf",
+      "sha1": "b845bb5a4e11ee484942b4b326d6bec37526933a"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-Regular.ttf",
+      "sha1": "9a19a459ca7bca15d2de8269b80411f2b4a71ccf"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-SemiBold.ttf",
+      "sha1": "30fcdd8f737e6a86abda2d643d2f23c5286c4663"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans/OpenSans-SemiBoldItalic.ttf",
+      "sha1": "4c5aa8cc443dc8d478f9126cd2c17720a3eeabfb"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-Bold.ttf",
+      "sha1": "adb9e4bbf391ba45c7ab63301d008fdf0ae964d1"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-BoldItalic.ttf",
+      "sha1": "7e205574cf052ff079a4db3a709c05189f122871"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-ExtraBold.ttf",
+      "sha1": "cc6aaa83eaa2181ffaf0db18362f332504439a75"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-ExtraBoldItalic.ttf",
+      "sha1": "66dc7ae73a6d1152882348897f20ecb6dc05af33"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-Italic.ttf",
+      "sha1": "3c10bd465fff6b3bedf6ceb8e111cb479a290e03"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-Light.ttf",
+      "sha1": "0203c744fe5e9d633a4aa1eca4b30a5777d17abe"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-LightItalic.ttf",
+      "sha1": "d6711ccc8e3b5f48ae33eddd78bb8859dd10c5ae"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-Medium.ttf",
+      "sha1": "df389bd939bdf9f75417edc306b9794829fa43d3"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-MediumItalic.ttf",
+      "sha1": "c29e6664e59d38af6768e6f7ca5b8c549191906c"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-Regular.ttf",
+      "sha1": "03b5494b4bdf7bf4e073a7aa19e8c66e6a90e445"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-SemiBold.ttf",
+      "sha1": "c800d7b2a8ba775916cc1a7d958998a6073ea600"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_Condensed/OpenSans_Condensed-SemiBoldItalic.ttf",
+      "sha1": "291ccf6daf2bbec81fe83d1fe26805c429ba4a04"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-Bold.ttf",
+      "sha1": "9668b70e3768833042a4fa1deeec05d7ba1a3196"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-BoldItalic.ttf",
+      "sha1": "054f3411c667ab762bd7abb7041f57d3bb06fea9"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-ExtraBold.ttf",
+      "sha1": "40d59736509625d54978a676f1f125c68c1f79e4"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-ExtraBoldItalic.ttf",
+      "sha1": "1a8f0d222b5bbc6e98e6f79639a62d07b8480feb"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-Italic.ttf",
+      "sha1": "60ef1a6b24bdbc811a68b82288941f7b06376dd5"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-Light.ttf",
+      "sha1": "99e112b8c025d1751cb0609284f5addb618f91f4"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-LightItalic.ttf",
+      "sha1": "15dfc77f934ee99fc524a112f9852373378ce9aa"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-Medium.ttf",
+      "sha1": "429e3920efc08e08aaeb380e8281598d859c1872"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-MediumItalic.ttf",
+      "sha1": "961fbc36af1dd961b9caa8e04f991ef5da5ffa82"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-Regular.ttf",
+      "sha1": "e3cdf989e69287b74f419e5222a5f07955c80777"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-SemiBold.ttf",
+      "sha1": "74dbbd840b5f619b608f3656dcda5e34cbeaa97d"
+    },
+    {
+      "path": "src/assets/fonts/Open_Sans/static/OpenSans_SemiCondensed/OpenSans_SemiCondensed-SemiBoldItalic.ttf",
+      "sha1": "fecd2fff513b69e892b448f9ee8c89d67ec3f8df"
+    }
+  ]
+}
