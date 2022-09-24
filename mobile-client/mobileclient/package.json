@@ -1,5 +1,9 @@
 {
   "name": "mobileclient",
+  "author": {
+    "name": "Matthew Perlman",
+    "email": "mattperls.code@gmail.com"
+  },
   "version": "0.0.1",
   "private": true,
   "scripts": {
