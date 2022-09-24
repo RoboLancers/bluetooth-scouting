@@ -40,6 +40,9 @@ const MatchPage = ({ navigation }) => {
                 case "number":
                     defaultInput = 0
                     break
+                case "timer":
+                    defaultInput = 0
+                    break
                 case "slider":
                     defaultInput = input.min
                     break

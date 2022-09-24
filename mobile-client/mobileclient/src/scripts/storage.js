@@ -261,11 +261,8 @@ const exampleData = () => ({
                 ]
             },
             {
-                type: "slider",
-                title: "Climb Speed in Seconds",
-                min: 0,
-                max: 30,
-                step: 5
+                type: "timer",
+                title: "Climb Speed"
             },
             {
                 type: "text",
