@@ -87,7 +87,7 @@ const MatchPage = ({ navigation }) => {
         if(item.type == "header"){
             linkRenders.push(
                 <TouchableWithoutFeedback key={index} onPress={() => {
-                    ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+                    ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
                     ref.current.scrollTo({
                         x: 0,
                         y: inputState[index] - 10,

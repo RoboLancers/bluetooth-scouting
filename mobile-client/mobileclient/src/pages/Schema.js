@@ -20,7 +20,7 @@ const SchemaPage = () => {
     }, [])
 
     const exportSchema = () => {
-        ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
         Share.open({
             message: JSON.stringify(schema),
             failOnCancel: false
@@ -30,7 +30,7 @@ const SchemaPage = () => {
     }
 
     const receiveNewSchema = () => {
-        ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
         // TODO: open bluetooth channel and listen for incoming
     }
 

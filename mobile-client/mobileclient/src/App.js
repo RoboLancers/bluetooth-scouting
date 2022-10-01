@@ -12,6 +12,8 @@ import UploadPage from "./pages/Upload"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faBinoculars, faFileCode, faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
 
+import ReactNativeHapticFeedback from "react-native-haptic-feedback"
+
 import { screen, colors } from "./constants"
 
 const App = () => {
@@ -47,7 +49,10 @@ const App = () => {
                     },
                     tabBarButton: (props) => {
                         return (
-                            <TouchableWithoutFeedback onPress={() => navigation.navigate(route.name)}>
+                            <TouchableWithoutFeedback onPress={() => {
+                                ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+                                navigation.navigate(route.name)
+                            }}>
                                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                                     {
                                         props.children

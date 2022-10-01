@@ -4,11 +4,17 @@ import { TouchableWithoutFeedback, View, Text, StyleSheet } from "react-native"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
-import { screen, colors } from "../../constants"
+import { colors } from "../../constants"
 
 const DefaultPage = ({ navigation }) => {
-    const startMatchScouting = () => navigation.push("Match") && ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
-    const startPitScouting = () => navigation.push("Pit") && ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+    const startMatchScouting = () => {
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+        navigation.push("Match")
+    }
+    const startPitScouting = () => {
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+        navigation.push("Pit")
+    }
 
     return (
         <View style={styles.container}>

@@ -62,13 +62,13 @@ const FormNumberInput = ({ title, value, setValue }) => {
 
     const minus = () => {
         if(value > 0){
-            ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+            ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
             setValue(value - 1)
         }
     }
 
     const plus = () => {
-        ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
         setValue(value + 1)
     }
 
@@ -117,21 +117,21 @@ const FormTimerInput = ({ title, value, setValue }) => {
     }, [running])
 
     const restart = () => {
-        ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
         setValue(0)
         setStartTimestep(Date.now())
         setEndTimestep(Date.now())
     }
 
     const start = () => {
-        ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
         setRunning(true)
         setStartTimestep(Date.now() - timeElapsed)
         setEndTimestep(Date.now())
     }
 
     const stop = () => {
-        ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
         setRunning(false)
         setValue(timeElapsed)
     }
@@ -176,15 +176,16 @@ const FormSliderInput = ({ title, min, max, step, value, setValue }) => {
     const handleTouchMove = (e) => {
         const screenWidth = screen.width - 60 - 15
         const deltaX = e.nativeEvent.touches[0].pageX - touchX
-        setValue(
-            Math.max(Math.min(
-                value + (deltaX / screenWidth) * (max - min)
-            , max), min)
-        )
+
+        const newValue = Math.max(Math.min(value + (deltaX / screenWidth) * (max - min), max), min)
+
+        if(Math.round(value / step) != Math.round(newValue / step)){
+            ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+        }
+
+        setValue(newValue)
         setTouchX(e.nativeEvent.touches[0].pageX)
     }
-
-    const handleTouchEnd = () => ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
 
     return (
         <View style={styles.inputContainer}>
@@ -193,10 +194,6 @@ const FormSliderInput = ({ title, min, max, step, value, setValue }) => {
                     title
                 }
             </Text>
-            <View style={styles.sliderInputContainer}>
-                <View style={styles.sliderTrackBar} />
-                <View style={[styles.sliderInputThumb, { transform: [{ translateX: (screen.width - 60 - 15) * (step * Math.round(value / step) - min) / (max - min) }] }]} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} />
-            </View>
             <View style={{ width: "100%" }}>
                 <View style={[{ width: 40, alignItems: "center" }, { transform: [{ translateX: (screen.width - 60 - 15) * (step * Math.round(value / step) - min) / (max - min) - 12.5 }] }]}>
                     <Text style={styles.sliderLabel}>
@@ -206,13 +203,29 @@ const FormSliderInput = ({ title, min, max, step, value, setValue }) => {
                     </Text>
                 </View>
             </View>
+            <TouchableWithoutFeedback>
+                <View style={styles.sliderInputContainer}>
+                    <View style={styles.sliderTrackBar} />
+                    <View style={[styles.sliderInputThumb, { transform: [{ translateX: (screen.width - 60 - 15) * (step * Math.round(value / step) - min) / (max - min) }] }]} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} />
+                </View>
+            </TouchableWithoutFeedback>
         </View>
     )
 }
 
 const FormToggleInput = ({ title, value, setValue }) => {
-    const setToFalse = () => setValue(false) && ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
-    const setToTrue = () => setValue(true) && ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+    const setToFalse = () => {
+        if(value){
+            ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+        }
+        setValue(false)
+    }
+    const setToTrue = () => {
+        if(!value){
+            ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+        }
+        setValue(true)
+    }
 
     return (
         <View style={styles.inputContainer}>
@@ -241,7 +254,12 @@ const FormRadioInput = ({ title, options, value, setValue }) => {
     const optionRenders = []
 
     options.forEach((option, index) => {
-        const setSelectedOption = () => setValue(index) && ReactNativeHapticFeedback.trigger("impactMedium", { enableVibrateFallback: false })
+        const setSelectedOption = () => {
+            if(value != index){
+                ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+            }
+            setValue(index)
+        }
 
         optionRenders.push(
             <TouchableWithoutFeedback key={index} onPress={setSelectedOption}>
@@ -362,6 +380,7 @@ const styles = StyleSheet.create({
     sliderInputContainer: {
         width: "100%",
         height: 40,
+        marginTop: 10,
         justifyContent: "center"
     },
     sliderInputThumb: {
