@@ -1,0 +1,31 @@
+{
+  "name": "scouting-app-node-server",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.3.1",
+    "express": "^4.18.1",
+    "inquirer": "^9.1.2",
+    "morgan": "^1.10.0",
+    "serialport": "^10.4.0"
+  },
+  "pkg": {
+    "targets": [
+      "node14-linux-arm64"
+    ],
+    "outputPath": "dist"
+  },
+  "devDependencies": {
+    "caxa": "^2.1.0",
+    "nodemon": "^2.0.19",
+    "prisma": "^4.3.1"
+  }
+}

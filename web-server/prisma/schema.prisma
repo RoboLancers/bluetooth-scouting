@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Schema {
+  id      Int      @id @default(autoincrement())
+  type    String
+  title   String
+  min     Int?
+  max     Int?
+  step    Int?
+  options Option[]
+  Scouts  Scouts[]
+}
+
+model Scouts {
+  id     Int    @id @default(autoincrement())
+  type   String
+  schema Schema @relation(fields: [schemaId], references: [id])
+
+  schemaId Int
+}
+
+model Option {
+  id       Int     @id @default(autoincrement())
+  body     String?
+  Schema   Schema? @relation(fields: [schemaId], references: [id])
+  schemaId Int?
+}

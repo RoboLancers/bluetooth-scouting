@@ -22,6 +22,8 @@ DerivedData
 *.xcuserstate
 ios/.xcode.env.local
 
+web-server/node_modules
+
 # Android/IntelliJ
 #
 build/
