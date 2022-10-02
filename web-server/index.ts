@@ -234,7 +234,7 @@ const bootstrap = async () => {
     const { scout } = req.body;
     try {
       return res.json({
-        scout: prisma.scouts.create({
+        scout: await prisma.scouts.create({
           data: {
             ...scout,
           },
