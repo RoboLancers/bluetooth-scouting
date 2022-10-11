@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+    <rect x="0" y="0" width="24" height="24" fill="rgb(250, 250, 250)"></rect>
+
+    <path d="M 4.605 8.151 L 1.892 13.848 L 22.108 13.848 L 19.395 8.151" fill="rgb(250, 60, 100)"></path>
+
+    <circle cx="12" cy="9" r="1.5" fill="rgb(250, 60, 100)"></circle>
+    <circle cx="12" cy="13.4" r="2" fill="rgb(250, 250, 250)" stroke="rgb(250, 60, 100)" stroke-width="1.5"></circle>
+    <circle cx="12" cy="15.4" r="2" fill="rgb(250, 250, 250)"></circle>
+
+    <circle cx="8" cy="9" r="3.5" fill="rgb(250, 60, 100)"></circle>
+    <circle cx="6.5" cy="15" r="4" fill="rgb(20, 20, 20)" stroke="rgb(250, 60, 100)" stroke-width="1.5"></circle>
+    
+    <circle cx="16" cy="9" r="3.5" fill="rgb(250, 60, 100)"></circle>
+    <circle cx="17.5" cy="15" r="4" fill="rgb(20, 20, 20)" stroke="rgb(250, 60, 100)" stroke-width="1.5"></circle>
+
+    <path d="M 10.117 11.893 L 11.4 8 L 12.6 8 L 13.883 11.893" fill="rgb(250, 60, 100)"></path>
+</svg>
