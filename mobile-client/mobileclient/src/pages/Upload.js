@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import { FlatList, Text, StyleSheet, NativeEventEmitter, NativeModules, TouchableOpacity } from "react-native"
+import { TouchableOpacity, FlatList, Text, StyleSheet, NativeEventEmitter, NativeModules } from "react-native"
 
 import BleManager from "react-native-ble-manager"
 const BleManagerModule = NativeModules.BleManager

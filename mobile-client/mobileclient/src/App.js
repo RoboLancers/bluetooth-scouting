@@ -73,6 +73,12 @@ const App = () => {
                     tabBarIcon: (props) => <FontAwesomeIcon icon={faCloudArrowUp} {...props} />
                 }} />
                 <Tab.Screen name={"Schema"} component={SchemaPage} options={{
+                    headerStyle: {
+                        height: screen.top + 70,
+                        backgroundColor: colors.white,
+                        borderBottomColor: colors.flair,
+                        shadowOpacity: 0
+                    },
                     tabBarIcon: (props) => <FontAwesomeIcon icon={faFileCode} {...props} />
                 }} />
             </Tab.Navigator>
