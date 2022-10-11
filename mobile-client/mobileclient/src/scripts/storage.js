@@ -9,8 +9,14 @@ const defaultData = () => ({
                 title: "General"
             },
             {
-                type: "number",
-                title: "Team Number"
+                type: "dropdown",
+                title: "Team",
+                options: [
+                    "(None Selected)",
+                    "#321 Robolancers",
+                    "#433 Firebirds",
+                    "#316 Lunatecs"
+                ]
             },
             {
                 type: "text",
@@ -150,10 +156,6 @@ const exampleData = () => ({
                 max: 10,
                 step: 1
             },
-            {
-                type: "text",
-                title: "Additional General Comments"
-            },
             // Auto
             {
                 type: "header",
@@ -184,10 +186,6 @@ const exampleData = () => ({
                 min: 0,
                 max: 5,
                 step: 1
-            },
-            {
-                type: "text",
-                title: "Additional Comments on Auto"
             },
             // Teleop
             {
@@ -243,10 +241,6 @@ const exampleData = () => ({
                 step: 1
             },
             {
-                type: "text",
-                title: "Additional Comments on Teleop"
-            },
-            {
                 type: "header",
                 title: "End Game"
             },
@@ -265,8 +259,12 @@ const exampleData = () => ({
                 title: "Climb Speed"
             },
             {
+                type: "header",
+                title: "Overview"
+            },
+            {
                 type: "text",
-                title: "Additional Comments on End Game"
+                title: "Additional Comments"
             }
         ],
         pitForm: [
@@ -283,20 +281,12 @@ const exampleData = () => ({
                 title: "Swerve?"
             },
             {
-                type: "text",
-                title: "General Comments"
-            },
-            {
                 type: "header",
                 title: "Autonomous"
             },
             {
                 type: "number",
                 title: "Expected Autonomous Points"
-            },
-            {
-                type: "text",
-                title: "Autonomous Comments"
             },
             {
                 type: "header",
@@ -307,73 +297,16 @@ const exampleData = () => ({
                 title: "Expected Teleop Points"
             },
             {
+                type: "header",
+                title: "Overview"
+            },
+            {
                 type: "text",
-                title: "Teleop Comments"
+                title: "General Comments"
             }
         ]
     },
-    scoutForms: [
-        {
-            id: "9/16/2022",
-            type: "Match",
-            inputs: { "Team Number": 321 }
-        },
-        {
-            id: "9/17/2022",
-            type: "Match",
-            inputs: { "Team Number": 1640 }
-        },
-        {
-            id: "9/18/2022",
-            type: "Pit",
-            inputs: { "Team Number": 316 }
-        },
-        {
-            id: "9/19/2022",
-            type: "Match",
-            inputs: { "Team Number": 1040 }
-        },
-        {
-            id: "9/16/2022",
-            type: "Match",
-            inputs: { "Team Number": 321 }
-        },
-        {
-            id: "9/17/2022",
-            type: "Match",
-            inputs: { "Team Number": 1640 }
-        },
-        {
-            id: "9/18/2022",
-            type: "Pit",
-            inputs: { "Team Number": 316 }
-        },
-        {
-            id: "9/19/2022",
-            type: "Match",
-            inputs: { "Team Number": 1040 }
-        },
-        {
-            id: "9/16/2022",
-            type: "Match",
-            inputs: { "Team Number": 321 }
-        },
-        {
-            id: "9/17/2022",
-            type: "Match",
-            inputs: { "Team Number": 1640 }
-        },
-        {
-            id: "9/18/2022",
-            type: "Pit",
-            inputs: { "Team Number": 316 }
-        },
-        {
-            id: "9/19/2022",
-            type: "Match",
-            inputs: { "Team Number": 1040 }
-        }
-    ]
+    scoutForms: []
 })
 
 const write = (data, callback) => {
@@ -388,7 +321,7 @@ class Storage {
         AsyncStorage.getItem("scouting-app", (error, res) => {
             if(error){
                 callback()
-            } else if(res != null) {
+            } else if(res == null) {
                 this.data = JSON.parse(res)
                 callback()
             } else {

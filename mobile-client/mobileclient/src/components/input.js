@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { TouchableWithoutFeedback, View, Text, TextInput, StyleSheet } from "react-native"
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { faMinus, faPlus, faRepeat, faPlay, faPause } from "@fortawesome/free-solid-svg-icons"
+import { faMinus, faPlus, faRepeat, faPlay, faPause, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
@@ -174,7 +174,7 @@ const FormSliderInput = ({ title, min, max, step, value, setValue }) => {
     }
 
     const handleTouchMove = (e) => {
-        const screenWidth = screen.width - 60 - 15
+        const screenWidth = screen.width - 60 - 10
         const deltaX = e.nativeEvent.touches[0].pageX - touchX
 
         const newValue = Math.max(Math.min(value + (deltaX / screenWidth) * (max - min), max), min)
@@ -195,7 +195,7 @@ const FormSliderInput = ({ title, min, max, step, value, setValue }) => {
                 }
             </Text>
             <View style={{ width: "100%" }}>
-                <View style={[{ width: 40, alignItems: "center" }, { transform: [{ translateX: (screen.width - 60 - 15) * (step * Math.round(value / step) - min) / (max - min) - 12.5 }] }]}>
+                <View style={[{ width: 40, alignItems: "center" }, { transform: [{ translateX: (screen.width - 60 - 10) * (step * Math.round(value / step) - min) / (max - min) - 5 }] }]}>
                     <Text style={styles.sliderLabel}>
                         {
                             step * Math.round(value / step)
@@ -206,7 +206,9 @@ const FormSliderInput = ({ title, min, max, step, value, setValue }) => {
             <TouchableWithoutFeedback>
                 <View style={styles.sliderInputContainer}>
                     <View style={styles.sliderTrackBar} />
-                    <View style={[styles.sliderInputThumb, { transform: [{ translateX: (screen.width - 60 - 15) * (step * Math.round(value / step) - min) / (max - min) }] }]} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} />
+                    <TouchableWithoutFeedback>
+                        <View style={[styles.sliderInputThumb, { transform: [{ translateX: (screen.width - 60 - 10) * (step * Math.round(value / step) - min) / (max - min) }] }]} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} />
+                    </TouchableWithoutFeedback>
                 </View>
             </TouchableWithoutFeedback>
         </View>
@@ -275,7 +277,7 @@ const FormRadioInput = ({ title, options, value, setValue }) => {
     })
 
     return (
-        <View style={[styles.inputContainer, { paddingBottom: 10 }]}>
+        <View style={[styles.inputContainer, { paddingBottom: 0 }]}>
             <Text style={styles.inputTitle} numberOfLines={1}>
                 {
                     title
@@ -283,6 +285,62 @@ const FormRadioInput = ({ title, options, value, setValue }) => {
             </Text>
             {
                 optionRenders
+            }
+        </View>
+    )
+}
+
+const FormDropdownInput = ({ title, options, value, setValue }) => {
+    const [menuOpen, setMenuOpen] = useState(false)
+
+    const toggleMenu = () => {
+        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+        setMenuOpen(!menuOpen)
+    }
+
+    const optionRenders = []
+    options.forEach((option, index) => {
+        const selectOption = () => {
+            setValue(index)
+            toggleMenu()
+        }
+
+        optionRenders.push(
+            <TouchableWithoutFeedback key={index} onPress={selectOption}>
+                <View style={[styles.dropdownOptionContainer, { backgroundColor: index == value ? colors.flairLight : colors.white, borderColor: index == value ? colors.flair : colors.white }]}>
+                    <Text style={styles.dropdownOptionText}>
+                        {
+                            option
+                        }
+                    </Text>
+                </View>
+            </TouchableWithoutFeedback>
+        )
+    })
+
+    return (
+        <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle} numberOfLines={1}>
+                {
+                    title
+                }
+            </Text>
+            <View style={[styles.multiControlInputContainer, { marginBottom: menuOpen ? 5 : 0 }]}>
+                <View style={styles.inputTextContainer}>
+                    <Text style={styles.inputText}>
+                        {
+                            options[value]
+                        }
+                    </Text>
+                </View>
+                <TouchableWithoutFeedback onPress={toggleMenu}>
+                    <View style={styles.controlButton}>
+                        <FontAwesomeIcon icon={menuOpen ? faChevronUp : faChevronDown} color={colors.flair} size={22} />
+                    </View>
+                </TouchableWithoutFeedback>
+            </View>
+            {
+                menuOpen && optionRenders
             }
         </View>
     )
@@ -313,6 +371,9 @@ const Input = (props) => {
         case "radio":
             Component = FormRadioInput
             break
+        case "dropdown":
+            Component = FormDropdownInput
+            break
     }
 
     return Component(props)
@@ -338,7 +399,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         margin: 10,
         marginBottom: 0,
-        padding: 20,
+        padding: 10,
         borderRadius: 10,
         backgroundColor: colors.white
     },
@@ -347,11 +408,11 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         color: colors.black,
         fontSize: 20,
-        marginBottom: 20
+        marginBottom: 10
     },
     inputTextContainer: {
         flex: 1,
-        padding: 20,
+        padding: 10,
         borderWidth: 1,
         borderColor: colors.flair,
         borderRadius: 10
@@ -368,24 +429,31 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     controlButton: {
-        width: 68,
-        height: 68,
+        width: 48,
+        height: 48,
         alignItems: "center",
         justifyContent: "center",
-        marginLeft: 20,
+        marginLeft: 10,
         borderWidth: 1,
         borderColor: colors.flair,
         borderRadius: 10
     },
+    sliderLabel: {
+        fontFamily: "Open Sans",
+        fontWeight: "700",
+        fontSize: 16,
+        color: colors.black,
+        marginTop: 5
+    },
     sliderInputContainer: {
         width: "100%",
-        height: 40,
-        marginTop: 10,
+        height: 30,
+        marginTop: 5,
         justifyContent: "center"
     },
     sliderInputThumb: {
         position: "absolute",
-        width: 15,
+        width: 30,
         height: 30,
         borderWidth: 2.5,
         borderColor: colors.flair,
@@ -398,25 +466,19 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         backgroundColor: colors.dark
     },
-    sliderLabel: {
-        fontFamily: "Open Sans",
-        fontWeight: "700",
-        fontSize: 18,
-        color: colors.black
-    },
     toggleButtonsContainer: {
         width: "100%",
-        height: 80,
+        height: 50,
         flexDirection: "row",
         justifyContent: "space-between"
     },
     toggleButtonContainer: {
-        width: 0.5 * (screen.width - 60) - 10,
+        width: 0.5 * (screen.width - 40) - 5,
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,
-        borderWidth: 5
+        borderWidth: 2.5
     },
     toggleButtonText: {
         fontFamily: "Open Sans",
@@ -424,19 +486,31 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.black
     },
-    optionButtonContainer: {
+    radioOptionButtonContainer: {
         width: "100%",
-        height: 60,
+        height: 50,
         justifyContent: "center",
         marginBottom: 10,
         borderRadius: 10,
-        borderWidth: 5
+        borderWidth: 2.5
     },
-    optionButtonText: {
+    radioOptionButtonText: {
         paddingHorizontal: 20,
         fontFamily: "Open Sans",
         fontWeight: "700",
         fontSize: 18,
+        color: colors.black
+    },
+    dropdownOptionContainer: {
+        marginTop: 5,
+        padding: 10,
+        borderWidth: 2.5,
+        borderRadius: 10
+    },
+    dropdownOptionText: {
+        fontFamily: "Open Sans",
+        fontWeight: "700",
+        fontSize: 16,
         color: colors.black
     }
 })

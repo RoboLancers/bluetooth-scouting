@@ -1,13 +1,13 @@
 import React from "react"
 
-import { TouchableWithoutFeedback, View, Text } from "react-native"
+import { TouchableWithoutFeedback, View } from "react-native"
 
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 import ScoutPage from "./pages/Scout"
-import SchemaPage from "./pages/Schema"
 import UploadPage from "./pages/Upload"
+import SchemaPage from "./pages/Schema"
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faBinoculars, faFileCode, faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
@@ -69,11 +69,11 @@ const App = () => {
                     headerShown: false,
                     tabBarIcon: (props) => <FontAwesomeIcon icon={faBinoculars} {...props} />
                 }} />
-                <Tab.Screen name={"Schema"} component={SchemaPage} options={{
-                    tabBarIcon: (props) => <FontAwesomeIcon icon={faFileCode} {...props} />
-                }} />
                 <Tab.Screen name={"Upload"} component={UploadPage} options={{
                     tabBarIcon: (props) => <FontAwesomeIcon icon={faCloudArrowUp} {...props} />
+                }} />
+                <Tab.Screen name={"Schema"} component={SchemaPage} options={{
+                    tabBarIcon: (props) => <FontAwesomeIcon icon={faFileCode} {...props} />
                 }} />
             </Tab.Navigator>
         </NavigationContainer>

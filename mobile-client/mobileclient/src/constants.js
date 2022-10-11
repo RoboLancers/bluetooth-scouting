@@ -16,7 +16,13 @@ const colors = {
     flairLight: "rgb(250, 170, 190)"
 }
 
+const bluetoothPeripheral = {
+    serviceUUID: "0425b4be-ebba-4903-96d0-8663974f2123",
+    characteristicUUID: "d6dde2c2-71c3-4907-9232-de076f48f8a9"
+}
+
 export {
     screen,
-    colors
+    colors,
+    bluetoothPeripheral
 }

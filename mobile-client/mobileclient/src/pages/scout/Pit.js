@@ -52,6 +52,9 @@ const PitPage = ({ navigation }) => {
                 case "radio":
                     defaultInput = 0
                     break
+                case "dropdown":
+                    defaultInput = 0
+                    break
             }
 
             defaultInputs.push(defaultInput)
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
     },
     linkText: {
         fontFamily: "Open Sans",
-        fontWeight: "400",
+        fontWeight: "500",
         fontSize: 18,
         color: colors.black
     },
