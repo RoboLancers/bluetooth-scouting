@@ -6,8 +6,6 @@ import BleManager from "react-native-ble-manager"
 const BleManagerModule = NativeModules.BleManager
 const bleEmitter = new NativeEventEmitter(BleManagerModule)
 
-import { stringToBytes } from "convert-string"
-
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
 import Storage from "../scripts/storage"
@@ -92,22 +90,18 @@ const SchemaPage = ({ navigation }) => {
                     })
                 })
 
-                const storage = new Storage()
-                storage.init(() => {
-                    const payload = storage.getScoutForms()
-                    const bytes = stringToBytes(JSON.stringify(payload))
-
-                    BleManager.read(device.id, bluetoothPeripheral.serviceUUID, bluetoothPeripheral.characteristicUUID).then((value) => {
-                        console.log(value)
-                    }).catch((e) => {
+                BleManager.read(device.id, bluetoothPeripheral.serviceUUID, bluetoothPeripheral.characteristicUUID).then((value) => {
+                    try {
+                        const newSchema = JSON.parse(String.fromCharCode(...value))
+                        const storage = new Storage()
+                        storage.init(() => {
+                            storage.setSchema(newSchema, () => {})
+                        })
+                    } catch(e){
                         console.warn(e)
-                    })
-
-                    BleManager.write(device.id, bluetoothPeripheral.serviceUUID, bluetoothPeripheral.characteristicUUID, bytes).then(() => {
-                        console.log("successfully wrote data, should alert user")
-                    }).catch((e) => {
-                        console.warn(e)
-                    })
+                    }
+                }).catch((e) => {
+                    console.warn(e)
                 })
             })
         }).catch((e) => {
