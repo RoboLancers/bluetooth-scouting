@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 import bleno from "bleno"
 import express from "express"
 
-const schema = import("./schema.json")
+import schema from "./schema.json"
 
 const uploadForms = (forms) => {
   console.log("Uploading forms to database:")
@@ -50,6 +50,7 @@ bleno.on("advertisingStart", (err) => {
             uuid: "d6dde2c271c349079232de076f48f8a9",
             properties: [ "read", "write" ],
             onReadRequest: (offset, callback) => {
+              console.log("***\n\n" + JSON.stringify(schema))
               callback(bleno.Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(schema)))
             },
             onWriteRequest: (data, offset, withoutResponse, callback) => {
