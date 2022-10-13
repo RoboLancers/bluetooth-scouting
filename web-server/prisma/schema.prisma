@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,28 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Schema {
-  id      Int      @id @default(autoincrement())
+model Input {
+  id      Int           @id
   type    String
   title   String
   min     Int?
   max     Int?
   step    Int?
-  options Option[]
-  Scouts  Scouts[]
+  options InputOption[]
 }
 
-model Scouts {
-  id     Int    @id @default(autoincrement())
-  type   String
-  schema Schema @relation(fields: [schemaId], references: [id])
-
-  schemaId Int
+model InputOption {
+  id      Int    @id @default(autoincrement())
+  content String
+  Input   Input? @relation(fields: [inputId], references: [id])
+  inputId Int?
 }
 
-model Option {
-  id       Int     @id @default(autoincrement())
-  body     String?
-  Schema   Schema? @relation(fields: [schemaId], references: [id])
-  schemaId Int?
+model Form {
+  id      Int     @id @default(autoincrement())
+  isMatch Boolean
 }

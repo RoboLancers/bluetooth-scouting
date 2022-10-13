@@ -1,317 +1,108 @@
-import { PrismaClient, Prisma } from "@prisma/client";
-import express from "express";
-import morgan from "morgan";
-import bleno from "bleno";
-import { BluetoothRequest } from "./types";
+// import { PrismaClient } from "@prisma/client"
+// const prisma = new PrismaClient()
+// import bleno from "bleno"
+// import express from "express"
 
-const PORT = process.env.PORT ?? 8080;
+// import schema from "./schema.json"
 
-const prisma = new PrismaClient();
+// console.log("run")
 
-console.log("Starting scouting server....");
+// const uploadForms = (forms: any) => {
+//   console.log("Uploading forms to database:")
+//   console.log({ forms })
 
-let advertising = false;
+//   const uploadForm = (index: number) => {
+//     if(index < forms.length){
+//       prisma.form.upsert({
+//         where: { id: forms[index].id },
+//         update: forms[index],
+//         create: forms[index]
+//       }).then(() => {
+//         uploadForm(index + 1)
+//       })
+//     }
+//   }
+  
+//   uploadForm(0)
+// }
 
-bleno.on("advertisingStart", (err) => {
-  if (err) {
-    console.error(`BLUETOOTH ERROR: ${err}`);
-  } else {
-    advertising = true;
-  }
-});
+// bleno.on("stateChange", (state) => {
+//   if(state == "poweredOn"){
+//     bleno.startAdvertising("lancer-scout", [ "0425b4beebba490396d08663974f2123" ], (err) => {
+//       if(err){
+//         console.warn(err)
+//       }
+//     })
+//   } else {
+//     bleno.stopAdvertising()
+//   }
+// })
 
-bleno.on("advertisingStop", () => {
-  advertising = false;
-});
+// bleno.on("advertisingStart", (err) => {
+//   if(err){
+//     console.warn(err)
+//   } else {
+//     let instreamWriteBuffer = ""
 
-bleno.on("accept", (address) => {
-  console.log("accepted connection with " + address);
-});
+//     bleno.setServices([
+//       new bleno.PrimaryService({
+//         uuid: "0425b4beebba490396d08663974f2123",
+//         characteristics: [
+//           new bleno.Characteristic({
+//             uuid: "d6dde2c271c349079232de076f48f8a9",
+//             properties: [ "read", "write" ],
+//             onReadRequest: (offset, callback) => {
+//               callback(bleno.Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(schema)))
+//             },
+//             onWriteRequest: (data, offset, withoutResponse, callback) => {
+//               instreamWriteBuffer += data.toString().replace(/\x19/g, "'")
+//               if(instreamWriteBuffer.length != 0 && instreamWriteBuffer.endsWith("]")){
+//                 try {
+//                   const instreamWriteObject = JSON.parse(instreamWriteBuffer)
+//                   uploadForms(instreamWriteObject)
+//                   instreamWriteBuffer = ""
+//                 } catch(_){}
+//               }
+//               callback(bleno.Characteristic.RESULT_SUCCESS)
+//             }
+//           })
+//         ]
+//       })
+//     ])
+//   }
+// })
 
-bleno.on("disconnect", (address) => {
-  console.log("disconnected from " + address);
-});
+// const bootstrap = async () => {
+//   const app = express()
 
-const startBlenoServer = () => {
-  bleno.on("stateChange", (state) => {
-    if (state == "poweredOn") {
-      console.log("Advertising started");
-      bleno.startAdvertising("robolancers-scouting-ble-server", [
-        "4d959935-6272-4145-a913-473cd61724df",
-      ]);
-      return true;
-    } else {
-      console.log("Stopping advertising....");
-      bleno.stopAdvertising(() => {
-        console.log("BLUETOOTH: Stopped advertising");
-      });
-      return false;
-    }
-  });
-};
-type MutateReturn = {
-  created: {
-    schema?: any;
-    scout?: any;
-  };
-  updated: {
-    schema?: any;
-    scout?: any;
-  };
-  m: string;
-  error: string;
-};
-const mutateDb = async (
-  data: Buffer,
-  callback
-): Promise<Partial<MutateReturn>> => {
-  try {
-    const processed = JSON.parse(data.toString()) as BluetoothRequest;
+//   app.use(express.json())
 
-    switch (processed.data.type) {
-      case "SCHEMA": {
-        let schema;
-        switch (processed.method) {
-          case "CREATE": {
-            schema = await prisma.schema.create({
-              data: {
-                ...(processed.data.raw as Prisma.SchemaCreateInput),
-              },
-            });
+//   app.route("/queryForms").post(async (req, res) => {
+//     try {
+//       const forms = await prisma.form.findMany({ where: req.body })
 
-            // using 1 for success
-            callback(1);
-            return {
-              created: {
-                schema,
-              },
-            };
-          }
-          case "UPDATE": {
-            schema = await prisma.schema.update({
-              where: {
-                id: processed.data.id,
-              },
-              data: {
-                ...(processed.data.raw as Prisma.SchemaUpdateInput),
-              },
-            });
-            // using 1 for success
-            callback(1);
+//       res.json({
+//         success: true,
+//         forms
+//       })
+//     } catch(error){
+//       res.json({
+//         success: false,
+//         error
+//       })
+//     }
+//   })
 
-            return {
-              updated: {
-                schema,
-              },
-            };
-          }
-        }
-      }
-      case "SCOUT": {
-        let scout;
-        switch (processed.method) {
-          case "CREATE": {
-            scout = await prisma.scouts.create({
-              data: {
-                ...(processed.data.raw as Prisma.ScoutsCreateInput),
-              },
-            });
+//   app.listen(8080, () => console.log("Running Lancer Scout Server"))
+// }
 
-            // using 1 for success
-            callback(1);
-
-            return {
-              created: {
-                scout,
-              },
-            };
-          }
-          case "UPDATE": {
-            scout = await prisma.scouts.update({
-              where: {
-                id: processed.data.id,
-              },
-              data: {
-                ...(processed.data.raw as Prisma.ScoutsUpdateInput),
-              },
-            });
-
-            // using 1 for success
-            callback(1);
-
-            return {
-              updated: {
-                scout,
-              },
-            };
-          }
-        }
-      }
-      default: {
-        // using 0 for mismatched type
-        callback(0);
-        return {
-          m: "Incorrect type provided",
-        };
-      }
-    }
-  } catch (error) {
-    // 2 is error
-    callback(2);
-    return {
-      error,
-    };
-  }
-};
-const bootstrap = async () => {
-  const app = express();
-
-  app.use(morgan());
-  app.use(express.json());
-
-  app.route("/uploadSchema").post(async (req, res) => {
-    try {
-      const schema = await prisma.schema.create({
-        data: {
-          ...req.body,
-        },
-      });
-
-      res.json({
-        schema,
-      });
-    } catch (error) {
-      res.json({
-        error,
-      });
-    }
-  });
-
-  app.get("/getSchema/:id", async (req, res) => {
-    const { id } = req.params;
-
-    try {
-      if (!id) {
-        return res.json({
-          m: "No ID provided",
-        });
-      }
-      const schema = await prisma.schema.findUniqueOrThrow({
-        where: {
-          id: parseInt(id.toString()),
-        },
-      });
-
-      res.json({
-        schema,
-      });
-    } catch (error) {
-      console.log(error);
-      res.json({
-        error,
-      });
-    }
-  });
-
-  app.get("/getScout/:id", async (req, res) => {
-    const { id } = req.params;
-    try {
-      return res.json({
-        scout: await prisma.scouts.findUniqueOrThrow({
-          where: {
-            id: parseInt(id),
-          },
-        }),
-      });
-    } catch (error) {
-      return res.json({
-        e: error.toString(),
-      });
-    }
-  });
-
-  app.post("/uploadScout", async (req, res) => {
-    const { scout } = req.body;
-    try {
-      return res.json({
-        scout: await prisma.scouts.create({
-          data: {
-            ...scout,
-          },
-        }),
-      });
-    } catch (error) {
-      return res.json({
-        e: error.toString(),
-      });
-    }
-  });
-
-  app.post("/startBluetoothAdvertising", (req, res) => {
-    try {
-      const started = startBlenoServer();
-      return res.json({
-        started,
-      });
-    } catch (error) {
-      return res.json({
-        e: error.toString(),
-      });
-    }
-  });
-
-  app.post("/readFromDeviceAndUpdateDb", (req, res) => {
-    try {
-      if (advertising) {
-        bleno.setServices([
-          new bleno.PrimaryService({
-            uuid: "0425b4be-ebba-4903-96d0-8663974f2123",
-            characteristics: [
-              new bleno.Characteristic({
-                value: null,
-                uuid: "d6dde2c2-71c3-4907-9232-de076f48f8a9",
-                properties: ["write"],
-                onWriteRequest: async (
-                  data,
-                  offset,
-                  shouldRespond,
-                  callback
-                ) => {
-                  console.log(`READ FROM DEVICE: Data ${data.toString()}`);
-
-                  const mutated = await mutateDb(data, callback);
-
-                  return res.json({
-                    ...mutated,
-                  });
-                },
-              }),
-            ],
-          }),
-        ]);
-      } else {
-        throw new Error("Not advertising");
-      }
-    } catch (error) {
-      return res.json({
-        e: error.toString(),
-      });
-    }
-  });
-
-  app.post("/writeToDevice", (req, res) => {});
-
-  app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
-  });
-};
-
-await bootstrap()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+// bootstrap()
+//   // why disconnect on server created?
+//   .then(async () => {
+//     await prisma.$disconnect()
+//   })
+//   .catch(async (e) => {
+//     console.error(e)
+//     await prisma.$disconnect()
+//     process.exit(1)
+//   })
