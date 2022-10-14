@@ -36,6 +36,17 @@ bleno.on("stateChange", (state) => {
   }
 })
 
+const schemaString = JSON.stringify(schema)
+const descriptors = []
+for(let i = 0;i<Math.ceil(schemaString.length / 23);i++){
+  const chunkUUID = new Array(4 - i.toString().length).fill("0").join("") + i.toString()
+  const chunk = schemaString.slice(23 * i, 23 * (i + 1))
+  descriptors.push(new bleno.Descriptor({
+    uuid: chunkUUID,
+    value: chunk
+  }))
+}
+
 bleno.on("advertisingStart", (err) => {
   if(err){
     console.warn(err)
@@ -48,11 +59,7 @@ bleno.on("advertisingStart", (err) => {
         characteristics: [
           new bleno.Characteristic({
             uuid: "d6dde2c271c349079232de076f48f8a9",
-            properties: [ "read", "write" ],
-            onReadRequest: (offset, callback) => {
-              console.log("***\n\n" + JSON.stringify(schema))
-              callback(bleno.Characteristic.RESULT_SUCCESS, Buffer.from(JSON.stringify(schema)))
-            },
+            properties: [ "write" ],
             onWriteRequest: (data, offset, withoutResponse, callback) => {
               instreamWriteBuffer += data.toString().replace(/\x19/g, "'")
               if(instreamWriteBuffer.length != 0 && instreamWriteBuffer.endsWith("]")){
@@ -64,6 +71,16 @@ bleno.on("advertisingStart", (err) => {
               }
               callback(bleno.Characteristic.RESULT_SUCCESS)
             }
+          }),
+          new bleno.Characteristic({
+            uuid: "95df9c18c01d489eaf1863df799ae7d3",
+            properties: [ "read" ],
+            value: descriptors.length.toString()
+          }),
+          new bleno.Characteristic({
+            uuid: "19995b5d7e8e42119e3f38428d4204a9",
+            properties: [ "read" ],
+            descriptors
           })
         ]
       })

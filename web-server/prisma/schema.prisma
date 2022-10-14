@@ -8,23 +8,18 @@ datasource db {
 }
 
 model Input {
-  id      Int           @id
-  type    String
-  title   String
-  min     Int?
-  max     Int?
-  step    Int?
-  options InputOption[]
-}
-
-model InputOption {
-  id      Int    @id @default(autoincrement())
-  content String
-  Input   Input? @relation(fields: [inputId], references: [id])
-  inputId Int?
+  id           Int      @id
+  type         String
+  title        String
+  booleanValue Boolean?
+  numberValue  Float?
+  stringValue  String?
+  Form         Form?    @relation(fields: [formId], references: [id])
+  formId       Int?
 }
 
 model Form {
-  id      Int     @id @default(autoincrement())
-  isMatch Boolean
+  id     Int     @id @default(autoincrement())
+  type   String
+  inputs Input[]
 }
