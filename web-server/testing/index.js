@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 import bleno from "bleno"
 import express from "express"
 
-import schema from "./schema.json"
+import schema from "../schema.json"
 
 const uploadForms = (forms) => {
   console.log("Uploading forms to database:")
