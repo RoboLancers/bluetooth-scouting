@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 
-import { TouchableOpacity, FlatList, Text, StyleSheet, NativeEventEmitter, NativeModules } from "react-native"
+import { TouchableOpacity, FlatList, View, Text, StyleSheet, Animated, Easing, Alert, NativeModules, NativeEventEmitter } from "react-native"
 
-import BleManager from "react-native-ble-manager"
+import { scan, stopScan, connect, retrieveServices, write } from "react-native-ble-manager"
 const BleManagerModule = NativeModules.BleManager
 const bleEmitter = new NativeEventEmitter(BleManagerModule)
 
@@ -15,127 +15,104 @@ import Storage from "../scripts/storage"
 import { colors, bluetoothPeripheral } from "../constants"
 
 const UploadPage = ({ navigation }) => {
-    const [scanning, setScanning] = useState(false)
-    const [devices, setDevices] = useState([])
-    const devicesMap = new Map()
+    const [devices, setDevices] = useState({})
+    const devices_ = devices
 
-    // scan for available devices for 3 seconds
-    const startScan = () => {
-        if (scanning) return
+    const [uploading, setUploading] = useState(false)
 
-        devicesMap.clear()
-
-        setDevices(Array.from(devicesMap.values()))
-
-        BleManager.scan([ bluetoothPeripheral.serviceUUID ], 3, false).then(() => {
-            setScanning(true)
-        }).catch((error) => {
-            if(error){
-                console.warn(error)
-            }
+    const uploadingIndicatorAngle = useRef(new Animated.Value(0)).current
+    const animateIndicatorAngle = Animated.loop(
+        Animated.timing(uploadingIndicatorAngle, {
+            toValue: 1,
+            duration: 700,
+            easing: Easing.linear,
+            useNativeDriver: true
         })
-    }
+    )
 
-    const stopScan = () => setScanning(false)
-
-    const handleDeviceDiscovered = (device) => {
-        if(device.name){
-            devicesMap.set(device.id, device)
-            setDevices(Array.from(devicesMap.values()))
+    useEffect(() => {
+        if(uploading){
+            animateIndicatorAngle.start()
+        } else {
+            animateIndicatorAngle.stop()
         }
-    }
+    }, [uploading])
 
-    const handleDeviceDisconnect = (data) => {
-        const device = devicesMap.get(data.peripheral)
-        if(device){
-            device.connected = false
-            devicesMap.set(device.id, device)
-            setDevices(Array.from(devicesMap.values()))
-        }
-    }
+    const uploadToDevice = (id) => {
+        if (uploading) return
 
-    const updateDevice = (device, mutator) => {
-        let deviceInMap = devicesMap.get(device.id)
+        setUploading(true)
 
-        if (!deviceInMap) return
-
-        deviceInMap = mutator(deviceInMap)
-
-        devicesMap.set(device.id, deviceInMap)
-        setDevices(Array.from(devicesMap.values()))
-    }
-
-    const uploadToDevice = (device) => {
-        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
-
-        if (!device) return
-
-        // why do we need to do this?
-        if(device.connected){
-            return BleManager.disconnect(device.id)
-        }
-
-        BleManager.connect(device.id).then(() => {
-            updateDevice(device, (device) => {
-                device.connected = true
-                return device
-            })
-
-            // retrieve services (maybe?) is required before read/write
-            BleManager.retrieveServices(device.id).then(() => {
-                BleManager.readRSSI(device.id).then((rssi) => {
-                    updateDevice(device, (device) => {
-                        device.rssi = rssi
-                        return device
-                    })
-                })
-
-                const storage = new Storage()
-                storage.init(() => {
-                    const payload = storage.getScoutForms()
-                    const bytes = stringToBytes(JSON.stringify(payload))
-
-                    BleManager.write(device.id, bluetoothPeripheral.serviceUUID, bluetoothPeripheral.characteristicUUID, bytes).then(() => {
-                        console.log("successfully wrote data, should alert user")
-                    }).catch((e) => {
-                        console.warn(e)
+        try {
+            connect(id).then(() => {
+                retrieveServices(id).then(() => {
+                    const storage = new Storage()
+                    storage.init(() => {
+                        const payload = stringToBytes(JSON.stringify(storage.getScoutForms()))
+                        
+                        write(id, bluetoothPeripheral.service, bluetoothPeripheral.upload, payload).then(() => {
+                            Alert.alert("Successfully Transferred", "Your scouting data has been uploaded to the server.")
+                            setUploading(false)
+                        })
                     })
                 })
             })
-        }).catch((e) => {
+        } catch(e){
             console.warn(e)
-        })
+
+            Alert.alert("Failed to Transfer", "There was an issue transferring your data to the server. Please try again.")
+            setUploading(false)
+        }
     }
 
     useEffect(() => {
-        BleManager.start({ showAlert: true })
-        bleEmitter.addListener("BleManagerDiscoverPeripheral", handleDeviceDiscovered)
-        bleEmitter.addListener("BleManagerStopScan", stopScan)
-        bleEmitter.addListener("BleManagerDisconnectPeripheral", handleDeviceDisconnect)
+        bleEmitter.addListener("BleManagerDiscoverPeripheral", (device) => {
+            devices_[device.name] = device.id
+            setDevices({...devices_})
+        })
 
-        return navigation.addListener("state", (e) => {
+        navigation.addListener("state", (e) => {
             if(e.data.state.index == 1){
-                startScan()
+                scan([ bluetoothPeripheral.service ], 5, false)
+            } else {
+                stopScan()
             }
         })
     }, [])
 
     return (
-        <FlatList style={styles.container} contentContainerStyle={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false} data={devices} renderItem={({ item }) => {
-            return (
-                <TouchableOpacity activeOpacity={1} key={item.id} onPress={() => {
-                    uploadToDevice(item)
-                }}>
-                    <Text style={styles.device}>
-                        {
-                            item.name
-                        }
-                    </Text>
-                </TouchableOpacity>
-            )
-        }} ListEmptyComponent={(
-            <Text style={styles.emptyText}>No Devices Found</Text>
-        )} />
+        <React.Fragment>
+            <FlatList style={styles.container} contentContainerStyle={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false} data={Object.keys(devices)} renderItem={({ item }) => {
+                return (
+                    <TouchableOpacity activeOpacity={1} key={item} onPress={() => {
+                        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+
+                        uploadToDevice(devices[item])
+                    }}>
+                        <Text style={styles.device}>
+                            {
+                                item
+                            }
+                        </Text>
+                    </TouchableOpacity>
+                )
+            }} ListEmptyComponent={(
+                <Text style={styles.emptyText}>No Devices Found</Text>
+            )} />
+            {
+                uploading && (
+                    <View style={styles.uploadingBarContainer}>
+                        <View style={styles.uploadingIndicatorContainer}>
+                            <Animated.View style={[styles.uploadingIndicator, { transform: [{ rotateZ: uploadingIndicatorAngle.interpolate({
+                                inputRange: [ 0, 1 ],
+                                outputRange: [ "0deg", "360deg" ]
+                            }) }] }]} />
+                        </View>
+                        <Text style={styles.uploadingText}>Uploading Forms...</Text>
+                    </View>
+                )
+            }
+        </React.Fragment>
     )
 }
 
@@ -165,6 +142,34 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.dark,
         textAlign: "center"
+    },
+    uploadingBarContainer: {
+        width: "100%",
+        height: 60,
+        borderTopColor: colors.flair,
+        borderTopWidth: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: colors.white
+    },
+    uploadingIndicatorContainer: {
+        width: 30,
+        height: 30,
+        marginHorizontal: 15
+    },
+    uploadingIndicator: {
+        width: 30,
+        height: 30,
+        borderWidth: 4,
+        borderRadius: 15,
+        borderColor: colors.flair,
+        borderTopColor: "transparent"
+    },
+    uploadingText: {
+        fontFamily: "Open Sans",
+        fontWeight: "500",
+        fontSize: 20,
+        color: colors.black
     }
 })
 

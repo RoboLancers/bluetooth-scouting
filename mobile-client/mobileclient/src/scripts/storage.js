@@ -1,311 +1,123 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-const defaultData = () => ({
-    schema: {
-        id: "DEFAULT_GENERIC",
-        matchForm: [
-            {
-                type: "header",
-                title: "General"
-            },
-            {
-                type: "dropdown",
-                title: "Team",
-                options: [
-                    "(None Selected)",
-                    "#321 Robolancers",
-                    "#433 Firebirds",
-                    "#316 Lunatecs"
-                ]
-            },
-            {
-                type: "text",
-                title: "General Comments"
-            },
-            {
-                type: "header",
-                title: "Autonomous"
-            },
-            {
-                type: "number",
-                title: "Autonomous Points"
-            },
-            {
-                type: "text",
-                title: "Autonomous Comments"
-            },
-            {
-                type: "header",
-                title: "Teleop"
-            },
-            {
-                type: "number",
-                title: "Teleop Points"
-            },
-            {
-                type: "slider",
-                title: "Quality of Defense",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Quality under Defense",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Strength",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Speed",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "number",
-                title: "Fouls"
-            },
-            {
-                type: "number",
-                title: "Tech Fouls"
-            },
-            {
-                type: "text",
-                title: "Teleop Comments"
-            }
-        ],
-        pitForm: [
-            {
-                type: "header",
-                title: "General"
-            },
-            {
-                type: "number",
-                title: "Team Number"
-            },
-            {
-                type: "toggle",
-                title: "Swerve?"
-            },
-            {
-                type: "text",
-                title: "General Comments"
-            },
-            {
-                type: "header",
-                title: "Autonomous"
-            },
-            {
-                type: "number",
-                title: "Expected Autonomous Points"
-            },
-            {
-                type: "text",
-                title: "Autonomous Comments"
-            },
-            {
-                type: "header",
-                title: "Teleop"
-            },
-            {
-                type: "number",
-                title: "Expected Teleop Points"
-            },
-            {
-                type: "text",
-                title: "Teleop Comments"
-            }
-        ]
-    },
-    scoutForms: []
+const defaultSchema = () => ({
+    id: "DEFAULT_GENERIC",
+    matchForm: [
+        {
+            type: "header",
+            title: "General"
+        },
+        {
+            type: "number",
+            title: "Team"
+        },
+        {
+            type: "header",
+            title: "Autonomous"
+        },
+        {
+            type: "number",
+            title: "Autonomous Points"
+        },
+        {
+            type: "header",
+            title: "Teleop"
+        },
+        {
+            type: "number",
+            title: "Teleop Points"
+        },
+        {
+            type: "slider",
+            title: "Quality of Defense",
+            min: 0,
+            max: 10,
+            step: 1
+        },
+        {
+            type: "slider",
+            title: "Quality under Defense",
+            min: 0,
+            max: 10,
+            step: 1
+        },
+        {
+            type: "slider",
+            title: "Strength",
+            min: 0,
+            max: 10,
+            step: 1
+        },
+        {
+            type: "slider",
+            title: "Speed",
+            min: 0,
+            max: 10,
+            step: 1
+        },
+        {
+            type: "number",
+            title: "Fouls"
+        },
+        {
+            type: "number",
+            title: "Tech Fouls"
+        },
+        {
+            type: "header",
+            title: "Overview"
+        },
+        {
+            type: "text",
+            title: "Comments"
+        }
+    ],
+    pitForm: [
+        {
+            type: "header",
+            title: "General"
+        },
+        {
+            type: "number",
+            title: "Team Number"
+        },
+        {
+            type: "toggle",
+            title: "Swerve?"
+        },
+        {
+            type: "text",
+            title: "General Comments"
+        },
+        {
+            type: "header",
+            title: "Autonomous"
+        },
+        {
+            type: "number",
+            title: "Expected Autonomous Points"
+        },
+        {
+            type: "text",
+            title: "Autonomous Comments"
+        },
+        {
+            type: "header",
+            title: "Teleop"
+        },
+        {
+            type: "number",
+            title: "Expected Teleop Points"
+        },
+        {
+            type: "text",
+            title: "Teleop Comments"
+        }
+    ]
 })
 
-// for ui dev and debug
-const exampleData = () => ({
-    schema: {
-        id: "FRC_321 MainSeason_2022_v1",
-        matchForm: [
-            {
-                type: "header",
-                title: "General"
-            },
-            {
-                type: "number",
-                title: "Team Number"
-            },
-            {
-                type: "slider",
-                title: "Communication",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Strategy",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            // Auto
-            {
-                type: "header",
-                title: "Auto"
-            },
-            {
-                type: "toggle",
-                title: "Left Tarmac?"
-            },
-            {
-                type: "toggle",
-                title: "Shoots Lower Goal?"
-            },
-            {
-                type: "toggle",
-                title: "Shoots Upper Goal?"
-            },
-            {
-                type: "slider",
-                title: "Lower Goals Scored",
-                min: 0,
-                max: 5,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Upper Goals Scored",
-                min: 0,
-                max: 5,
-                step: 1
-            },
-            // Teleop
-            {
-                type: "header",
-                title: "Teleop"
-            },
-            {
-                type: "toggle",
-                title: "Shoots Lower Goal?"
-            },
-            {
-                type: "toggle",
-                title: "Shoots Upper Goal?"
-            },
-            {
-                type: "toggle",
-                title: "Shoots From Any Distance?"
-            },
-            {
-                type: "number",
-                title: "Shots Scored in Lower Goal"
-            },
-            {
-                type: "number",
-                title: "Shots Scored in Upper Goal"
-            },
-            {
-                type: "slider",
-                title: "Quality of Defense",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Quality Under Defense",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Fouls",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "slider",
-                title: "Tech Fouls",
-                min: 0,
-                max: 10,
-                step: 1
-            },
-            {
-                type: "header",
-                title: "End Game"
-            },
-            {
-                type: "radio",
-                title: "Climb Rung Reached",
-                options: [
-                    "None",
-                    "Lower",
-                    "Mid",
-                    "High"
-                ]
-            },
-            {
-                type: "timer",
-                title: "Climb Speed"
-            },
-            {
-                type: "header",
-                title: "Overview"
-            },
-            {
-                type: "text",
-                title: "Additional Comments"
-            }
-        ],
-        pitForm: [
-            {
-                type: "header",
-                title: "General"
-            },
-            {
-                type: "number",
-                title: "Team Number"
-            },
-            {
-                type: "toggle",
-                title: "Swerve?"
-            },
-            {
-                type: "header",
-                title: "Autonomous"
-            },
-            {
-                type: "number",
-                title: "Expected Autonomous Points"
-            },
-            {
-                type: "header",
-                title: "Teleop"
-            },
-            {
-                type: "number",
-                title: "Expected Teleop Points"
-            },
-            {
-                type: "header",
-                title: "Overview"
-            },
-            {
-                type: "text",
-                title: "General Comments"
-            }
-        ]
-    },
+const defaultData = () => ({
+    schema: defaultSchema(),
     scoutForms: []
 })
 
@@ -321,7 +133,7 @@ class Storage {
         AsyncStorage.getItem("scouting-app", (error, res) => {
             if(error){
                 callback()
-            } else if(res == null) {
+            } else if(res != null) {
                 this.data = JSON.parse(res)
                 callback()
             } else {
@@ -345,10 +157,6 @@ class Storage {
     getScoutForms(){
         return this.data.scoutForms
     }
-    setSchema(schema, callback){
-        this.data.schema = schema
-        write(this.data, callback)
-    }
     addScoutForm(form, callback){
         if(this.data.scoutForms.some((storedForm) => storedForm.id == form.id)){
             this.data.scoutForms[this.data.scoutForms.findIndex((storedForm) => storedForm.id == form.id)] = form
@@ -356,6 +164,17 @@ class Storage {
             this.data.scoutForms.push(form)
         }
         write(this.data, callback)
+    }
+    clearForms(callback){
+        this.data.scoutForms = []
+        write(this.data, callback)
+    }
+    setSchema(schema, callback){
+        this.data.schema = schema
+        write(this.data, callback)
+    }
+    deleteSchema(callback){
+        this.setSchema(defaultSchema(), callback)
     }
 }
 

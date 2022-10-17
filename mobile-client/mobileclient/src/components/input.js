@@ -265,8 +265,8 @@ const FormRadioInput = ({ title, options, value, setValue }) => {
 
         optionRenders.push(
             <TouchableWithoutFeedback key={index} onPress={setSelectedOption}>
-                <View style={[styles.optionButtonContainer, { borderColor: index == value ? colors.flair : colors.white, backgroundColor: index == value ? colors.flairLight : colors.white }]}>
-                    <Text style={styles.optionButtonText}>
+                <View style={[styles.radioOptionButtonContainer, { borderColor: index == value ? colors.flair : colors.white, backgroundColor: index == value ? colors.flairLight : colors.white }]}>
+                    <Text style={styles.radioOptionButtonText}>
                         {
                             option
                         }

@@ -8,9 +8,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import ScoutPage from "./pages/Scout"
 import UploadPage from "./pages/Upload"
 import SchemaPage from "./pages/Schema"
+import SettingsPage from "./pages/Settings"
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { faBinoculars, faFileCode, faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
+import { faBinoculars, faCloudArrowUp, faFileCode, faGear } from "@fortawesome/free-solid-svg-icons"
+
+import SplashScreen from "react-native-splash-screen"
+
+import { start } from "react-native-ble-manager"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
@@ -18,6 +23,10 @@ import { screen, colors } from "./constants"
 
 const App = () => {
     const Tab = createBottomTabNavigator()
+
+    start().then(() => {
+        SplashScreen.hide()
+    })
 
     return (
         <NavigationContainer>
@@ -80,6 +89,9 @@ const App = () => {
                         shadowOpacity: 0
                     },
                     tabBarIcon: (props) => <FontAwesomeIcon icon={faFileCode} {...props} />
+                }} />
+                <Tab.Screen name={"Settings"} component={SettingsPage} options={{
+                    tabBarIcon: (props) => <FontAwesomeIcon icon={faGear} {...props} />
                 }} />
             </Tab.Navigator>
         </NavigationContainer>
