@@ -6215,11 +6215,6 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
-"react-native-share@^7.9.0":
-  "integrity" "sha512-I9RPp7Ph7dusPwN+/TgFq2V9vLVCN12gwUzpgM1eCoqTMN54dVWI+9k0loCgANv3CdajiKSOrGh+DTnsmhG9VA=="
-  "resolved" "https://registry.npmjs.org/react-native-share/-/react-native-share-7.9.0.tgz"
-  "version" "7.9.0"
-
 "react-native-splash-screen@^3.3.0":
   "integrity" "sha512-rGjt6HkoSXxMqH4SQUJ1gnPQlPJV8+J47+4yhgTIan4bVvAwJhEeJH7wWt9hXSdH4+VfwTS0GTaflj1Tw83IhA=="
   "resolved" "https://registry.npmjs.org/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz"
@@ -6232,11 +6227,6 @@
   dependencies:
     "css-select" "^5.1.0"
     "css-tree" "^1.1.3"
-
-"react-native-use-keyboard-height@^0.1.1":
-  "integrity" "sha512-Sof2fk4YmuIuU7NYq2btaAmtQYVI67xtP5EZDsvrEq+58t4mwRoKCLcjbf1xqiY1vmd9+8ckzwpO5z5dmcokOA=="
-  "resolved" "https://registry.npmjs.org/react-native-use-keyboard-height/-/react-native-use-keyboard-height-0.1.1.tgz"
-  "version" "0.1.1"
 
 "react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.70 || 1000.0.0", "react-native@>= 0.67", "react-native@>=0.57", "react-native@>=0.57.0", "react-native@>=0.60.0", "react-native@0.70.0":
   "integrity" "sha512-QjXLbrK9f+/B2eCzn6kAvglLV/8nwPuFGaFv7ggPpAzFRyx5bVN1dwQLHL3MrP7iXR/M7Jc6Nnid7tmRSic6vA=="

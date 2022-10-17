@@ -4,8 +4,6 @@ import { TouchableWithoutFeedback, ScrollView, View, Text, StyleSheet } from "re
 
 import Input from "../../components/input"
 
-import useKeyboardHeight from "react-native-use-keyboard-height"
-
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
 import Storage from "../../scripts/storage"
@@ -18,7 +16,8 @@ const PitPage = ({ navigation }) => {
     const [form, setForm] = useState([])
     const [inputState, setInputState] = useState([]) // stores relative render y of headers, stored here for convenience
 
-    const keyboardHeight = Math.max(0, useKeyboardHeight() - (70 + screen.bottom))
+    const rawKeyboardHeight = 80 // hardcoded since dynamic one causes internal memory leak
+    const keyboardHeight = Math.max(0, rawKeyboardHeight - (70 + screen.bottom))
 
     useEffect(() => {
         const storage = new Storage()

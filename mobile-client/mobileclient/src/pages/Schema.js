@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 
-import { TouchableOpacity, FlatList, View, Text, StyleSheet, NativeEventEmitter, NativeModules } from "react-native"
+import { TouchableOpacity, FlatList, View, Text, StyleSheet, Animated, Easing, Alert, NativeModules, NativeEventEmitter } from "react-native"
 
-import BleManager from "react-native-ble-manager"
+import { scan, stopScan, connect, retrieveServices, read } from "react-native-ble-manager"
 const BleManagerModule = NativeModules.BleManager
 const bleEmitter = new NativeEventEmitter(BleManagerModule)
+
+import { bytesToString } from "convert-string"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
@@ -15,98 +17,67 @@ import { colors, bluetoothPeripheral } from "../constants"
 const SchemaPage = ({ navigation }) => {
     const [schemaId, setSchemaId] = useState("Loading...")
 
-    const [scanning, setScanning] = useState(false)
-    const [devices, setDevices] = useState([])
-    const devicesMap = new Map()
+    const [devices, setDevices] = useState({})
+    const devices_ = devices
 
-    // scan for available devices for 3 seconds
-    const startScan = () => {
-        if (scanning) return
+    const [retrieving, setRetrieving] = useState(false)
 
-        devicesMap.clear()
-
-        setDevices(Array.from(devicesMap.values()))
-
-        BleManager.scan([ bluetoothPeripheral.serviceUUID ], 3, false).then(() => {
-            setScanning(true)
-        }).catch((error) => {
-            if(error){
-                console.warn(error)
-            }
+    const retrievingIndicatorAngle = useRef(new Animated.Value(0)).current
+    const animateIndicatorAngle = Animated.loop(
+        Animated.timing(retrievingIndicatorAngle, {
+            toValue: 1,
+            duration: 700,
+            easing: Easing.linear,
+            useNativeDriver: true
         })
-    }
+    )
 
-    const stopScan = () => setScanning(false)
-
-    const handleDeviceDiscovered = (device) => {
-        if(device.name){
-            devicesMap.set(device.id, device)
-            setDevices(Array.from(devicesMap.values()))
+    useEffect(() => {
+        if(retrieving){
+            animateIndicatorAngle.start()
+        } else {
+            animateIndicatorAngle.stop()
         }
-    }
+    }, [retrieving])
 
-    const handleDeviceDisconnect = (data) => {
-        const device = devicesMap.get(data.peripheral)
-        if(device){
-            device.connected = false
-            devicesMap.set(device.id, device)
-            setDevices(Array.from(devicesMap.values()))
-        }
-    }
+    const retrieveSchemaFromDevice = (id) => {
+        if (retrieving) return
 
-    const updateDevice = (device, mutator) => {
-        let deviceInMap = devicesMap.get(device.id)
+        setRetrieving(true)
 
-        if (!deviceInMap) return
-
-        deviceInMap = mutator(deviceInMap)
-
-        devicesMap.set(device.id, deviceInMap)
-        setDevices(Array.from(devicesMap.values()))
-    }
-
-    const updateFromDevice = (device) => {
-        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
-
-        if (!device) return
-
-        // why do we need to do this?
-        if(device.connected){
-            return BleManager.disconnect(device.id)
-        }
-
-        BleManager.connect(device.id).then(() => {
-            updateDevice(device, (device) => {
-                device.connected = true
-                return device
-            })
-
-            // retrieve services (maybe?) is required before read/write
-            BleManager.retrieveServices(device.id).then(() => {
-                BleManager.readRSSI(device.id).then((rssi) => {
-                    updateDevice(device, (device) => {
-                        device.rssi = rssi
-                        return device
+        try {
+            connect(id).then(() => {
+                retrieveServices(id).then(() => {
+                    read(id, bluetoothPeripheral.service, bluetoothPeripheral.schemaLength).then((schemaLengthInBytes) => {
+                        const schemaLength = parseInt(bytesToString(schemaLengthInBytes))
+    
+                        const chunkRequests = []
+                        for(let i = 0;i<schemaLength;i++){
+                            const chunkIndexString = new Array(4 - i.toString().length).fill("0").join("") + i.toString()
+                            chunkRequests.push(read(id, bluetoothPeripheral.service, bluetoothPeripheral.schemaChunk + chunkIndexString))
+                        }
+    
+                        Promise.all(chunkRequests).then((schemaChunks) => {
+                            const schema = JSON.parse(schemaChunks.map(chunk => bytesToString(chunk)).join(""))
+    
+                            setSchemaId(schema.id)
+                            const storage = new Storage()
+                            storage.init(() => {
+                                storage.setSchema(schema)
+                            })
+    
+                            Alert.alert("Successfully Retrieved", "The latest schema is now being used on this device.")
+                            setRetrieving(false)
+                        })
                     })
                 })
-
-                BleManager.read(device.id, bluetoothPeripheral.serviceUUID, bluetoothPeripheral.characteristicUUID).then((value) => {
-                    try {
-                        const newSchema = JSON.parse(String.fromCharCode(...value))
-                        const storage = new Storage()
-                        storage.init(() => {
-                            storage.setSchema(newSchema, () => {})
-                        })
-                    } catch(e){
-                        console.warn(e)
-                    }
-                }).catch((e) => {
-                    console.warn(e)
-                })
             })
-        }).catch((e) => {
+        } catch(e){
             console.warn(e)
-        })
+
+            Alert.alert("Failed to Retrieve", "There was an issue retrieving the schema from the server. Please try again.")
+            setRetrieving(false)
+        }
     }
 
     useEffect(() => {
@@ -115,14 +86,21 @@ const SchemaPage = ({ navigation }) => {
             setSchemaId(storage.getSchemaId())
         })
 
-        BleManager.start({ showAlert: true })
-        bleEmitter.addListener("BleManagerDiscoverPeripheral", handleDeviceDiscovered)
-        bleEmitter.addListener("BleManagerStopScan", stopScan)
-        bleEmitter.addListener("BleManagerDisconnectPeripheral", handleDeviceDisconnect)
-
-        return navigation.addListener("state", (e) => {
-            if(e.data.state.index == 1){
-                startScan()
+        bleEmitter.addListener("BleManagerDiscoverPeripheral", (device) => {
+            devices_[device.name] = device.id
+            setDevices({...devices_})
+        })
+        
+        navigation.addListener("state", (e) => {
+            if(e.data.state.index == 2){
+                const storage = new Storage()
+                storage.init(() => {
+                    setSchemaId(storage.getSchemaId())
+                })
+                
+                scan([ bluetoothPeripheral.service ], 5, false)
+            } else {
+                stopScan()
             }
         })
     }, [])
@@ -136,14 +114,16 @@ const SchemaPage = ({ navigation }) => {
                     }
                 </Text>
             </View>
-                <FlatList style={styles.container} contentContainerStyle={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false} data={devices} renderItem={({ item }) => {
+            <FlatList style={styles.container} contentContainerStyle={{ paddingBottom: 10 }} showsVerticalScrollIndicator={false} data={Object.keys(devices)} renderItem={({ item }) => {
                 return (
-                    <TouchableOpacity activeOpacity={1} key={item.id} onPress={() => {
-                        updateFromDevice(item)
+                    <TouchableOpacity activeOpacity={1} key={item} onPress={() => {
+                        ReactNativeHapticFeedback.trigger("impactLight", { enableVibrateFallback: false })
+
+                        retrieveSchemaFromDevice(devices[item])
                     }}>
                         <Text style={styles.device}>
                             {
-                                item.name
+                                item
                             }
                         </Text>
                     </TouchableOpacity>
@@ -151,6 +131,19 @@ const SchemaPage = ({ navigation }) => {
             }} ListEmptyComponent={(
                 <Text style={styles.emptyText}>No Devices Found</Text>
             )} />
+            {
+                retrieving && (
+                    <View style={styles.retrievingBarContainer}>
+                        <View style={styles.retrievingIndicatorContainer}>
+                            <Animated.View style={[styles.retrievingIndicator, { transform: [{ rotateZ: retrievingIndicatorAngle.interpolate({
+                                inputRange: [ 0, 1 ],
+                                outputRange: [ "0deg", "360deg" ]
+                            }) }] }]} />
+                        </View>
+                        <Text style={styles.retrievingText}>Retrieving Schema...</Text>
+                    </View>
+                )
+            }
         </View>
     )
 }
@@ -196,6 +189,34 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.dark,
         textAlign: "center"
+    },
+    retrievingBarContainer: {
+        width: "100%",
+        height: 60,
+        borderTopColor: colors.flair,
+        borderTopWidth: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: colors.white
+    },
+    retrievingIndicatorContainer: {
+        width: 30,
+        height: 30,
+        marginHorizontal: 15
+    },
+    retrievingIndicator: {
+        width: 30,
+        height: 30,
+        borderWidth: 4,
+        borderRadius: 15,
+        borderColor: colors.flair,
+        borderTopColor: "transparent"
+    },
+    retrievingText: {
+        fontFamily: "Open Sans",
+        fontWeight: "500",
+        fontSize: 20,
+        color: colors.black
     }
 })
 

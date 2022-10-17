@@ -4,8 +4,6 @@ import { TouchableWithoutFeedback, ScrollView, View, Text, StyleSheet } from "re
 
 import Input from "../../components/input"
 
-import useKeyboardHeight from "react-native-use-keyboard-height"
-
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
 import Storage from "../../scripts/storage"
@@ -18,7 +16,8 @@ const MatchPage = ({ navigation }) => {
     const [form, setForm] = useState([])
     const [inputState, setInputState] = useState([]) // stores relative render y of headers, stored here for convenience
 
-    const keyboardHeight = Math.max(0, useKeyboardHeight() - (70 + screen.bottom))
+    const rawKeyboardHeight = 80 // hardcoded since dynamic one causes internal memory leak
+    const keyboardHeight = Math.max(0, rawKeyboardHeight - (70 + screen.bottom))
 
     useEffect(() => {
         const storage = new Storage()
@@ -72,11 +71,24 @@ const MatchPage = ({ navigation }) => {
     const saveInputs = () => {
         const id = Date.now()
 
-        const scoutData = { id, type: "Match", inputs: {} }
-        inputState.forEach((input, index) => {
-            if(form[index].type != "header"){
-                scoutData.inputs[form[index].title] = input
+        const scoutData = { id, type: "Match", inputs: [] }
+
+        form.forEach((question, index) => {
+            const { type, title } = question
+            const entryInput = { type, title }
+            const value = inputState[index]
+            switch(typeof value){
+                case "boolean":
+                    entryInput.booleanValue = value
+                    break
+                case "number":
+                    entryInput.numberValue = value
+                    break
+                case "string":
+                    entryInput.stringValue = value
+                    break
             }
+            scoutData.inputs.push(entryInput)
         })
 
         const storage = new Storage()
