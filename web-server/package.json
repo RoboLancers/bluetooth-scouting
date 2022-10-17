@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test-dev": "nodemon --experimental-json-modules ./testing/index.js",
-    "dev": "nodemon --experimental-json-modules ./main.js"
+    "start": "nodemon --experimental-json-modules index.js"
   },
   "keywords": [],
   "author": "",
