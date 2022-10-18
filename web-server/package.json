@@ -1,15 +1,14 @@
 {
   "name": "scouting-app-node-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web Server and BLE Peripheral for Lancer Scout",
   "type": "module",
   "scripts": {
-    "test-dev": "nodemon --experimental-json-modules ./testing/index.js",
     "start": "nodemon --experimental-json-modules index.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "authors": [ "Rafayel Amirkhanyan", "Matthew Perlman" ],
+  "license": "MIT",
   "dependencies": {
     "@prisma/client": "^4.3.1",
     "bleno": "npm:@abandonware/bleno@^0.5.1-4",
