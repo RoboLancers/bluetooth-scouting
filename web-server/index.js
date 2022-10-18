@@ -6,22 +6,17 @@ import express from "express"
 import schema from "./schema.json"
 
 const uploadForms = (forms) => {
-  console.log("Uploading forms to database:")
-  console.log({ forms })
-
-  // const uploadForm = (index) => {
-  //   if(index < forms.length){
-  //     prisma.form.upsert({
-  //       where: { id: forms[index].id },
-  //       update: forms[index],
-  //       create: forms[index]
-  //     }).then(() => {
-  //       uploadForm(index + 1)
-  //     })
-  //   }
-  // }
-  
-  // uploadForm(0)
+  forms.forEach((form) => {
+    prisma.form.findFirst({ where: { id: form.id } }).then((found) => {
+      if(found == null){
+        prisma.form.create({ data: {
+          id: form.id,
+          type: form.type,
+          inputs: JSON.stringify(form.inputs)
+        }})
+      }
+    })
+  })
 }
 
 bleno.on("stateChange", (state) => {
@@ -90,20 +85,15 @@ const bootstrap = async () => {
 
   app.use(express.json())
 
-  app.route("/queryForms").post(async (req, res) => {
-    try {
-      const forms = await prisma.form.findMany({ where: req.body })
+  app.get("/", (req, res) => {
+    // TODO: return react build dir
+    res.send("Hello World!")
+  })
 
-      res.json({
-        success: true,
-        forms
-      })
-    } catch(error){
-      res.json({
-        success: false,
-        error
-      })
-    }
+  app.route("/forms").get((req, res) => {
+    prisma.form.findMany().then((forms) => {
+      res.send(JSON.stringify(forms, (key, value) => { return typeof value == "bigint" ? value.toString() : value }))
+    })
   })
 
   app.listen(8080, () => console.log("\nRunning Lancer Scout Server\n"))
