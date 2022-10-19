@@ -85,14 +85,20 @@ const bootstrap = async () => {
 
   app.use(express.json())
 
-  app.get("/", (req, res) => {
+  app.route("/").get((req, res) => {
     // TODO: return react build dir
     res.send("Hello World!")
   })
 
+  app.route("/delete").get((req, res) => {
+    prisma.form.deleteMany().then(() => {
+      res.send("Deleted")
+    })
+  })
+
   app.route("/forms").get((req, res) => {
     prisma.form.findMany().then((forms) => {
-      res.send(JSON.stringify(forms, (key, value) => { return typeof value == "bigint" ? value.toString() : value }))
+      res.send(JSON.parse(JSON.stringify(forms, (key, value) => typeof value == "bigint" ? value.toString() : value)))
     })
   })
 
