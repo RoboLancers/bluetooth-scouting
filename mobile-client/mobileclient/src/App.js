@@ -34,8 +34,8 @@ const App = () => {
                 return {
                     headerStyle: {
                         height: screen.top + 70,
-                        backgroundColor: colors.white,
-                        borderBottomColor: colors.flair,
+                        backgroundColor: colors.gold,
+                        borderBottomColor: colors.crimson,
                         borderBottomWidth: 1
                     },
                     headerTitleStyle: {
@@ -46,8 +46,8 @@ const App = () => {
                     },
                     tabBarStyle: {
                         height: screen.bottom + 70,
-                        backgroundColor: colors.white,
-                        borderTopColor: colors.flair,
+                        backgroundColor: colors.gold,
+                        borderTopColor: colors.crimson,
                         borderTopWidth: 1
                     },
                     tabBarLabelStyle: {
@@ -70,7 +70,7 @@ const App = () => {
                             </TouchableWithoutFeedback>
                         )
                     },
-                    tabBarActiveTintColor: colors.flair,
+                    tabBarActiveTintColor: colors.crimson,
                     tabBarInactiveTintColor: colors.black
                 }
             }}>
@@ -85,7 +85,7 @@ const App = () => {
                     headerStyle: {
                         height: screen.top + 70,
                         backgroundColor: colors.white,
-                        borderBottomColor: colors.flair,
+                        borderBottomColor: colors.crimson,
                         shadowOpacity: 0
                     },
                     tabBarIcon: (props) => <FontAwesomeIcon icon={faFileCode} {...props} />

@@ -39,7 +39,7 @@ const FormTextInput = ({ title, placeholder, value, setValue }) => {
             </Text>
             <TouchableWithoutFeedback onPress={focus}>
                 <View style={styles.inputTextContainer}>
-                    <TextInput ref={inputRef} placeholder={placeholder} value={value} onChangeText={setValue} style={styles.inputText} placeholderTextColor={colors.dark} cursorColor={colors.flair} selectionColor={colors.flair} color multiline />
+                    <TextInput ref={inputRef} placeholder={placeholder} value={value} onChangeText={setValue} style={styles.inputText} placeholderTextColor={colors.dark} cursorColor={colors.crimson} selectionColor={colors.crimson} color multiline />
                 </View>
             </TouchableWithoutFeedback>
         </View>
@@ -82,17 +82,17 @@ const FormNumberInput = ({ title, value, setValue }) => {
             <View style={styles.multiControlInputContainer}>
                 <TouchableWithoutFeedback onPress={focus}>
                     <View style={styles.inputTextContainer}>
-                        <TextInput ref={inputRef} value={value.toString()} onChangeText={setInputValue} style={styles.inputText} cursorColor={colors.flair} selectionColor={colors.flair} color multiline keyboardType={"numeric"} />
+                        <TextInput ref={inputRef} value={value.toString()} onChangeText={setInputValue} style={styles.inputText} cursorColor={colors.crimson} selectionColor={colors.crimson} color multiline keyboardType={"numeric"} />
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={minus}>
                     <View style={styles.controlButton}>
-                        <FontAwesomeIcon icon={faMinus} color={colors.flair} size={22} />
+                        <FontAwesomeIcon icon={faMinus} color={colors.crimson} size={22} />
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={plus}>
                     <View style={styles.controlButton}>
-                        <FontAwesomeIcon icon={faPlus} color={colors.flair} size={22} />
+                        <FontAwesomeIcon icon={faPlus} color={colors.crimson} size={22} />
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -153,12 +153,12 @@ const FormTimerInput = ({ title, value, setValue }) => {
                 </View>
                 <TouchableWithoutFeedback onPress={restart}>
                     <View style={styles.controlButton}>
-                        <FontAwesomeIcon icon={faRepeat} color={colors.flair} size={22} />
+                        <FontAwesomeIcon icon={faRepeat} color={colors.crimson} size={22} />
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={running ? stop : start}>
                     <View style={styles.controlButton}>
-                        <FontAwesomeIcon icon={running ? faPause : faPlay} color={colors.flair} size={22} />
+                        <FontAwesomeIcon icon={running ? faPause : faPlay} color={colors.crimson} size={22} />
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -238,12 +238,12 @@ const FormToggleInput = ({ title, value, setValue }) => {
             </Text>
             <View style={styles.toggleButtonsContainer}>
                 <TouchableWithoutFeedback onPress={setToFalse}>
-                    <View style={[styles.toggleButtonContainer, { borderColor: !value ? colors.flair : colors.white, backgroundColor: !value ? colors.flairLight : colors.white }]}>
+                    <View style={[styles.toggleButtonContainer, { borderColor: !value ? colors.crimson : colors.white, backgroundColor: !value ? colors.pink : colors.white }]}>
                         <Text style={styles.toggleButtonText}>False</Text>
                     </View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={setToTrue}>
-                    <View style={[styles.toggleButtonContainer, { borderColor: value ? colors.flair : colors.white, backgroundColor: value ? colors.flairLight : colors.white }]}>
+                    <View style={[styles.toggleButtonContainer, { borderColor: value ? colors.crimson : colors.white, backgroundColor: value ? colors.pink : colors.white }]}>
                         <Text style={styles.toggleButtonText}>True</Text>
                     </View>
                 </TouchableWithoutFeedback>
@@ -265,7 +265,7 @@ const FormRadioInput = ({ title, options, value, setValue }) => {
 
         optionRenders.push(
             <TouchableWithoutFeedback key={index} onPress={setSelectedOption}>
-                <View style={[styles.radioOptionButtonContainer, { borderColor: index == value ? colors.flair : colors.white, backgroundColor: index == value ? colors.flairLight : colors.white }]}>
+                <View style={[styles.radioOptionButtonContainer, { borderColor: index == value ? colors.crimson : colors.white, backgroundColor: index == value ? colors.pink : colors.white }]}>
                     <Text style={styles.radioOptionButtonText}>
                         {
                             option
@@ -307,7 +307,7 @@ const FormDropdownInput = ({ title, options, value, setValue }) => {
 
         optionRenders.push(
             <TouchableWithoutFeedback key={index} onPress={selectOption}>
-                <View style={[styles.dropdownOptionContainer, { backgroundColor: index == value ? colors.flairLight : colors.white, borderColor: index == value ? colors.flair : colors.white }]}>
+                <View style={[styles.dropdownOptionContainer, { backgroundColor: index == value ? colors.pink : colors.white, borderColor: index == value ? colors.crimson : colors.white }]}>
                     <Text style={styles.dropdownOptionText}>
                         {
                             option
@@ -335,7 +335,7 @@ const FormDropdownInput = ({ title, options, value, setValue }) => {
                 </View>
                 <TouchableWithoutFeedback onPress={toggleMenu}>
                     <View style={styles.controlButton}>
-                        <FontAwesomeIcon icon={menuOpen ? faChevronUp : faChevronDown} color={colors.flair} size={22} />
+                        <FontAwesomeIcon icon={menuOpen ? faChevronUp : faChevronDown} color={colors.crimson} size={22} />
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -392,9 +392,9 @@ const styles = StyleSheet.create({
         fontFamily: "Open Sans",
         fontWeight: "700",
         fontSize: 24,
-        color: colors.flair,
+        color: colors.crimson,
         textDecorationLine: "underline",
-        textDecorationColor: colors.flair
+        textDecorationColor: colors.crimson
     },
     inputContainer: {
         margin: 10,
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         borderWidth: 1,
-        borderColor: colors.flair,
+        borderColor: colors.crimson,
         borderRadius: 10
     },
     inputText: {
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginLeft: 10,
         borderWidth: 1,
-        borderColor: colors.flair,
+        borderColor: colors.crimson,
         borderRadius: 10
     },
     sliderLabel: {
@@ -456,9 +456,9 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderWidth: 2.5,
-        borderColor: colors.flair,
+        borderColor: colors.crimson,
         borderRadius: 10,
-        backgroundColor: colors.flairLight
+        backgroundColor: colors.pink
     },
     sliderTrackBar: {
         width: "100%",

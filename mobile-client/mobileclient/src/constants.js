@@ -8,12 +8,14 @@ const screen = {
 }
 
 const colors = {
-    white: "rgb(250, 250, 200)",
-    grey: "rgb(230, 230, 180)",
+    white: "rgb(245, 245, 245)",
+    grey: "rgb(220, 220, 220)",
     dark: "rgb(90, 90, 90)",
     black: "rgb(20, 20, 20)",
-    flair: "rgb(200, 50, 50)",
-    flairLight: "rgb(240, 160, 160)"
+    crimson: "rgb(184, 1, 0)",
+    pink: "rgb(250, 130, 130)",
+    gold: "rgb(245, 245, 245)"
+    // gold: "rgb(238, 184, 34)"
 }
 
 const bluetoothPeripheral = {

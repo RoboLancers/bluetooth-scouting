@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     uploadingBarContainer: {
         width: "100%",
         height: 60,
-        borderTopColor: colors.flair,
+        borderTopColor: colors.crimson,
         borderTopWidth: 1,
         flexDirection: "row",
         alignItems: "center",
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         height: 30,
         borderWidth: 4,
         borderRadius: 15,
-        borderColor: colors.flair,
+        borderColor: colors.crimson,
         borderTopColor: "transparent"
     },
     uploadingText: {

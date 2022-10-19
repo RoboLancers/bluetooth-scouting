@@ -87,14 +87,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         borderRadius: 20,
         borderWidth: 2,
-        borderColor: colors.flair,
+        borderColor: colors.crimson,
         backgroundColor: colors.white
     },
     buttonText: {
         fontFamily: "Open Sans",
         fontWeight: "700",
         fontSize: 20,
-        color: colors.flair
+        color: colors.crimson
     }
 })
 
