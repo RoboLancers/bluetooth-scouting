@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react"
 
 import { TouchableWithoutFeedback, ScrollView, View, Text, StyleSheet } from "react-native"
 
-import Input from "../../components/input"
+import Input from "../../components/Input"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
@@ -71,25 +71,13 @@ const MatchPage = ({ navigation }) => {
     const saveInputs = () => {
         const id = Date.now()
 
-        const scoutData = { id, type: "Match", inputs: [] }
-
+        const inputs = []
         form.forEach((question, index) => {
-            const { type, title } = question
-            const entryInput = { type, title }
-            const value = inputState[index]
-            switch(typeof value){
-                case "boolean":
-                    entryInput.booleanValue = value
-                    break
-                case "number":
-                    entryInput.numberValue = value
-                    break
-                case "string":
-                    entryInput.stringValue = value
-                    break
-            }
-            scoutData.inputs.push(entryInput)
+            // minimize bluetooth payload size
+            if (question.type != "header") inputs.push({ t: question.title, v: inputState[index] })
         })
+
+        const scoutData = { id, type: "Match", inputs }
 
         const storage = new Storage()
         storage.init(() => {
@@ -153,19 +141,19 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 80,
         paddingVertical: 10,
-        backgroundColor: colors.white,
+        backgroundColor: colors.gold,
         borderBottomWidth: 1,
-        borderBottomColor: colors.flair
+        borderBottomColor: colors.crimson
     },
     linkContainer: {
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 20,
         marginLeft: 10,
-        backgroundColor: colors.flairLight,
+        backgroundColor: colors.pink,
         borderRadius: 10,
         borderWidth: 2,
-        borderColor: colors.flair
+        borderColor: colors.crimson
     },
     linkText: {
         fontFamily: "Open Sans",
@@ -180,14 +168,14 @@ const styles = StyleSheet.create({
         margin: 20,
         borderRadius: 20,
         borderWidth: 2,
-        borderColor: colors.flair,
+        borderColor: colors.crimson,
         backgroundColor: colors.white
     },
     buttonText: {
         fontFamily: "Open Sans",
         fontWeight: "700",
         fontSize: 20,
-        color: colors.flair
+        color: colors.crimson
     }
 })
 

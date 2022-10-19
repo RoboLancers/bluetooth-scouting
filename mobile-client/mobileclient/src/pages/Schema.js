@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     schemaIdContainer: {
         width: "100%",
         alignItems: "center",
-        borderBottomColor: colors.flair,
+        borderBottomColor: colors.crimson,
         borderBottomWidth: 1,
         backgroundColor: colors.white
     },
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         fontFamily: "Open Sans",
         fontWeight: "500",
         fontSize: 16,
-        color: colors.flair,
+        color: colors.crimson,
         marginLeft: 10,
         paddingBottom: 10
     },
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     retrievingBarContainer: {
         width: "100%",
         height: 60,
-        borderTopColor: colors.flair,
+        borderTopColor: colors.crimson,
         borderTopWidth: 1,
         flexDirection: "row",
         alignItems: "center",
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
         height: 30,
         borderWidth: 4,
         borderRadius: 15,
-        borderColor: colors.flair,
+        borderColor: colors.crimson,
         borderTopColor: "transparent"
     },
     retrievingText: {

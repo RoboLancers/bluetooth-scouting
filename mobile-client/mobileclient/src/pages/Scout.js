@@ -22,7 +22,7 @@ const ScoutPage = () => {
         <Stack.Navigator initialRouteName={"Default"} screenOptions={{
             headerStyle: {
                 height: screen.top + 70,
-                backgroundColor: colors.white,
+                backgroundColor: colors.gold,
                 shadowOpacity: 0
             },
             headerTitleStyle: {
@@ -48,7 +48,7 @@ const ScoutPage = () => {
                         ])
                     }}>
                         <View style={{ flex: 1, width: 80, alignItems: "center", justifyContent: "center" }}>
-                            <FontAwesomeIcon icon={faChevronLeft} size={24} color={colors.flair} />
+                            <FontAwesomeIcon icon={faChevronLeft} size={24} color={colors.crimson} />
                         </View>
                     </TouchableWithoutFeedback>
                 )
@@ -58,8 +58,8 @@ const ScoutPage = () => {
                 headerLeft: null,
                 headerStyle: {
                     height: screen.top + 70,
-                    backgroundColor: colors.white,
-                    borderBottomColor: colors.flair,
+                    backgroundColor: colors.gold,
+                    borderBottomColor: colors.crimson,
                     borderBottomWidth: 1
                 },
                 headerTitle: "Select Scouting Mode"
