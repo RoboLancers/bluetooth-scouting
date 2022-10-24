@@ -13,9 +13,7 @@ const colors = {
     dark: "rgb(90, 90, 90)",
     black: "rgb(20, 20, 20)",
     crimson: "rgb(184, 1, 0)",
-    pink: "rgb(250, 130, 130)",
-    gold: "rgb(245, 245, 245)"
-    // gold: "rgb(238, 184, 34)"
+    pink: "rgb(250, 180, 180)",
 }
 
 const bluetoothPeripheral = {

@@ -42,20 +42,6 @@ const defaultSchema = () => ({
             step: 1
         },
         {
-            type: "slider",
-            title: "Strength",
-            min: 0,
-            max: 10,
-            step: 1
-        },
-        {
-            type: "slider",
-            title: "Speed",
-            min: 0,
-            max: 10,
-            step: 1
-        },
-        {
             type: "number",
             title: "Fouls"
         },
@@ -84,6 +70,20 @@ const defaultSchema = () => ({
         {
             type: "toggle",
             title: "Swerve?"
+        },
+        {
+            type: "slider",
+            title: "Strength",
+            min: 0,
+            max: 10,
+            step: 1
+        },
+        {
+            type: "slider",
+            title: "slider",
+            min: 0,
+            max: 10,
+            step: 1
         },
         {
             type: "text",

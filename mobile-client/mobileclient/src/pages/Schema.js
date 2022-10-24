@@ -10,6 +10,8 @@ import { bytesToString } from "convert-string"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
+import validateSchema from "../scripts/validateSchema"
+
 import Storage from "../scripts/storage"
 
 import { colors, bluetoothPeripheral } from "../constants"
@@ -23,22 +25,14 @@ const SchemaPage = ({ navigation }) => {
     const [retrieving, setRetrieving] = useState(false)
 
     const retrievingIndicatorAngle = useRef(new Animated.Value(0)).current
-    const animateIndicatorAngle = Animated.loop(
+    Animated.loop(
         Animated.timing(retrievingIndicatorAngle, {
             toValue: 1,
             duration: 700,
             easing: Easing.linear,
             useNativeDriver: true
         })
-    )
-
-    useEffect(() => {
-        if(retrieving){
-            animateIndicatorAngle.start()
-        } else {
-            animateIndicatorAngle.stop()
-        }
-    }, [retrieving])
+    ).start()
 
     const retrieveSchemaFromDevice = (id) => {
         if (retrieving) return
@@ -59,15 +53,22 @@ const SchemaPage = ({ navigation }) => {
     
                         Promise.all(chunkRequests).then((schemaChunks) => {
                             const schema = JSON.parse(schemaChunks.map(chunk => bytesToString(chunk)).join(""))
-    
-                            setSchemaId(schema.id)
-                            const storage = new Storage()
-                            storage.init(() => {
-                                storage.setSchema(schema)
-                            })
-    
-                            Alert.alert("Successfully Retrieved", "The latest schema is now being used on this device.")
-                            setRetrieving(false)
+                            
+                            const validationResult = validateSchema(schema)
+
+                            if(validationResult.valid){
+                                setSchemaId(schema.id)
+                                const storage = new Storage()
+                                storage.init(() => {
+                                    storage.setSchema(validationResult.schema)
+                                })
+        
+                                Alert.alert("Successfully Retrieved", "The latest schema is now being used on this device.")
+                                setRetrieving(false)
+                            } else {
+                                Alert.alert("Invalid Schema", "The uploaded schema was not valid. This should be manually fixed on the server.")
+                                setRetrieving(false)
+                            }
                         })
                     })
                 })

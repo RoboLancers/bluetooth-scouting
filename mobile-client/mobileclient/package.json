@@ -5,6 +5,7 @@
     "email": "mattperls.code@gmail.com"
   },
   "version": "0.0.1",
+  "description": "Mobile App Client for Lancer Scout",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

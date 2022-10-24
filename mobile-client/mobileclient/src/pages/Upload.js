@@ -21,22 +21,14 @@ const UploadPage = ({ navigation }) => {
     const [uploading, setUploading] = useState(false)
 
     const uploadingIndicatorAngle = useRef(new Animated.Value(0)).current
-    const animateIndicatorAngle = Animated.loop(
+    Animated.loop(
         Animated.timing(uploadingIndicatorAngle, {
             toValue: 1,
             duration: 700,
             easing: Easing.linear,
             useNativeDriver: true
         })
-    )
-
-    useEffect(() => {
-        if(uploading){
-            animateIndicatorAngle.start()
-        } else {
-            animateIndicatorAngle.stop()
-        }
-    }, [uploading])
+    ).start()
 
     const uploadToDevice = (id) => {
         if (uploading) return

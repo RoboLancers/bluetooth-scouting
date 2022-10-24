@@ -1,0 +1,127 @@
+@font-face {
+    font-family: RobotoRegular;
+    src: url(./assets/fonts/Roboto/Roboto-Regular.ttf)
+}
+
+@font-face {
+    font-family: RobotoBold;
+    src: url(./assets/fonts/Roboto/Roboto-Bold.ttf)
+}
+
+* {
+    font-family: RobotoRegular;
+}
+
+#statistics {
+
+}
+
+.schema-tools {
+    body {
+        background-color: white;
+    }
+    
+    h1 {
+        font-family: RobotoBold;
+        text-align: center;
+        margin: 50px 0;
+    }
+    
+    h2 {
+        font-family: RobotoBold;
+    }
+    
+    section {
+        width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: rgb(240, 240, 240);
+        border-radius: 10px;
+    }
+    
+    .action-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        width: 220px;
+        height: 40px;
+        margin: auto;
+        margin-bottom: 20px;
+        padding: 20px 40px;
+        border-radius: 10px;
+        background-color: rgb(244, 89, 112);
+
+        .action-text {
+            display: inline;
+        }
+    }
+    
+    .form-question-container {
+        position: relative;
+        width: 400px;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 10px;
+        border: 2px solid rgb(244, 89, 112);
+        background-color: white;
+
+        .form-question-type-container {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .form-question-type-selector {
+            margin-left: 20px;
+        }
+        
+        .delete-form-question {
+            position: absolute;
+            font-size: 18px;
+            right: 20px;
+            color: rgb(244, 89, 112);
+        }
+        
+        .option-container {
+            margin-top: 20px;
+        }
+        
+        .option-container-name {
+            margin-bottom: 10px;
+        }
+        
+        hr {
+            margin: 30px 0;
+            border-width: 0;
+            border-bottom-width: 1px;
+            border-color: rgb(244, 89, 112);
+        }
+    }
+    
+    .form-question-container:first-of-type {
+        margin-top: 40px;
+    }
+
+    input {
+        width: 300px;
+        height: 40px;
+        border: 2px solid rgb(244, 89, 112);
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .json {
+        width: 476px;
+        border: 2px solid rgb(244, 89, 112);
+        border-radius: 10px;
+        padding: 10px;
+    }
+}
+
+#upload-schema {
+
+}
+
+#settings {
+
+}

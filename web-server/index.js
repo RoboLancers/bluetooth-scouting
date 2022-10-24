@@ -2,10 +2,13 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 import bleno from "bleno"
 import express from "express"
-
-import schema from "./schema.json"
+import { resolve } from "path"
+import { readFileSync, writeFileSync } from "fs"
 
 const uploadForms = (forms) => {
+  console.log("\nuploaded forms:\n")
+  console.log(forms)
+
   forms.forEach((form) => {
     prisma.form.findFirst({ where: { id: form.id } }).then((found) => {
       if(found == null){
@@ -37,7 +40,7 @@ bleno.on("advertisingStart", (err) => {
   } else {
     let instreamWriteBuffer = ""
 
-    const schemaString = JSON.stringify(schema)
+    const schemaString = readFileSync("./schemas/schema.json", "utf8")
     const schemaChunkCharacteristics = []
     for(let i = 0;i<Math.ceil(schemaString.length / 23);i++){
       const chunkIndexString = new Array(4 - i.toString().length).fill("0").join("") + i.toString()
@@ -84,13 +87,10 @@ const bootstrap = async () => {
   const app = express()
 
   app.use(express.json())
+  app.use(express.static(resolve("../web-client/build")))
 
-  app.route("/").get((req, res) => {
-    // TODO: return react build dir
-    res.send("Hello World!")
-  })
-
-  app.route("/delete").get((req, res) => {
+  // post route to prevent accidental call from browser
+  app.route("/delete").post((req, res) => {
     prisma.form.deleteMany().then(() => {
       res.send("Deleted")
     })
@@ -98,8 +98,24 @@ const bootstrap = async () => {
 
   app.route("/forms").get((req, res) => {
     prisma.form.findMany().then((forms) => {
-      res.send(JSON.parse(JSON.stringify(forms, (key, value) => typeof value == "bigint" ? value.toString() : value)))
+      res.send(JSON.stringify(forms, (key, value) => typeof value == "bigint" ? value.toString() : value))
     })
+  })
+
+  app.route("/schema").get((req, res) => {
+    const currentSchema = readFileSync("./schemas/schema.json", "utf8")
+    res.send(currentSchema)
+  })
+
+  app.route("/schema").post((req, res) => {
+    const currentSchema = readFileSync("./schemas/schema.json", "utf8")
+    writeFileSync("./schemas/schema" + Date.now().toString() + ".json", currentSchema)
+    writeFileSync("./schemas/schema.json", JSON.stringify(req.body.schema))
+    res.send("posted")
+  })
+
+  app.route("*").get((req, res) => {
+    res.sendFile(resolve("../web-client/build/index.html"))
   })
 
   app.listen(8080, () => console.log("\nRunning Lancer Scout Server\n"))
