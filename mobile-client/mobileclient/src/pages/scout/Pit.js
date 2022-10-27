@@ -74,7 +74,7 @@ const PitPage = ({ navigation }) => {
         const inputs = []
         form.forEach((question, index) => {
             // minimize bluetooth payload size
-            if (question.type != "header") inputs.push({ t: question.title, v: inputState[index] })
+            if (question.type != "header") inputs.push({ t: question.title, v: (question.type == "radio" || question.type == "dropdown") ? question.options[inputState[index]] : inputState[index] })
         })
 
         const scoutData = { id, type: "Pit", inputs }
@@ -118,7 +118,11 @@ const PitPage = ({ navigation }) => {
 
     return (
         <React.Fragment>
-            <ScrollView style={styles.linksContainer} contentContainerStyle={{ paddingRight: 10 }} horizontal showsHorizontalScrollIndicator={false} children={linkRenders} />
+            {
+                linkRenders.length > 0 ? (
+                    <ScrollView style={styles.linksContainer} contentContainerStyle={{ paddingRight: 10 }} horizontal showsHorizontalScrollIndicator={false} children={linkRenders} />
+                ) : <View style={{ height: 1, backgroundColor: colors.crimson }} />
+            }
             <ScrollView ref={ref} style={styles.inputsContainer} showsVerticalScrollIndicator={false}>
                 {
                     inputRenders
@@ -141,7 +145,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 80,
         paddingVertical: 10,
-        backgroundColor: colors.gold,
+        backgroundColor: colors.white,
         borderBottomWidth: 1,
         borderBottomColor: colors.crimson
     },

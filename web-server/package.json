@@ -4,6 +4,7 @@
   "description": "Web Server and BLE Peripheral for Lancer Scout",
   "type": "module",
   "scripts": {
+    "build-client": "cd ../web-client && npm run build && cd ../web-server",
     "start": "nodemon --experimental-json-modules index.js"
   },
   "keywords": [],

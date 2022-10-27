@@ -22,7 +22,7 @@ const ScoutPage = () => {
         <Stack.Navigator initialRouteName={"Default"} screenOptions={{
             headerStyle: {
                 height: screen.top + 70,
-                backgroundColor: colors.gold,
+                backgroundColor: colors.white,
                 shadowOpacity: 0
             },
             headerTitleStyle: {
@@ -58,7 +58,7 @@ const ScoutPage = () => {
                 headerLeft: null,
                 headerStyle: {
                     height: screen.top + 70,
-                    backgroundColor: colors.gold,
+                    backgroundColor: colors.white,
                     borderBottomColor: colors.crimson,
                     borderBottomWidth: 1
                 },

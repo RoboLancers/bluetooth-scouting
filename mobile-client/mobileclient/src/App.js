@@ -34,7 +34,7 @@ const App = () => {
                 return {
                     headerStyle: {
                         height: screen.top + 70,
-                        backgroundColor: colors.gold,
+                        backgroundColor: colors.white,
                         borderBottomColor: colors.crimson,
                         borderBottomWidth: 1
                     },
@@ -46,7 +46,7 @@ const App = () => {
                     },
                     tabBarStyle: {
                         height: screen.bottom + 70,
-                        backgroundColor: colors.gold,
+                        backgroundColor: colors.white,
                         borderTopColor: colors.crimson,
                         borderTopWidth: 1
                     },
