@@ -31,7 +31,7 @@ const UploadPage = ({ navigation }) => {
     )
 
     useEffect(() => {
-        if (uploading) {
+        if(uploading){
             animateIndicatorAngle.start()
         } else {
             animateIndicatorAngle.stop()
@@ -44,14 +44,12 @@ const UploadPage = ({ navigation }) => {
         setUploading(true)
 
         try {
-
-
             connect(id).then(() => {
                 retrieveServices(id).then(() => {
                     const storage = new Storage()
                     storage.init(() => {
                         const payload = stringToBytes(JSON.stringify(storage.getScoutForms()))
-
+                        
                         write(id, bluetoothPeripheral.service, bluetoothPeripheral.upload, payload).then(() => {
                             Alert.alert("Successfully Transferred", "Your scouting data has been uploaded to the server.")
                             setUploading(false)
@@ -59,7 +57,7 @@ const UploadPage = ({ navigation }) => {
                     })
                 })
             })
-        } catch (e) {
+        } catch(e){
             console.warn(e)
 
             Alert.alert("Failed to Transfer", "There was an issue transferring your data to the server. Please try again.")
@@ -67,17 +65,15 @@ const UploadPage = ({ navigation }) => {
         }
     }
 
-   
     useEffect(() => {
-       
         bleEmitter.addListener("BleManagerDiscoverPeripheral", (device) => {
             devices_[device.name] = device.id
-            setDevices({ ...devices_ })
+            setDevices({...devices_})
         })
 
         navigation.addListener("state", (e) => {
-            if (e.data.state.index == 1) {
-                scan([bluetoothPeripheral.service], 5, false)
+            if(e.data.state.index == 1){
+                scan([ bluetoothPeripheral.service ], 5, false)
             } else {
                 stopScan()
             }
@@ -107,14 +103,10 @@ const UploadPage = ({ navigation }) => {
                 uploading && (
                     <View style={styles.uploadingBarContainer}>
                         <View style={styles.uploadingIndicatorContainer}>
-                            <Animated.View style={[styles.uploadingIndicator, {
-                                transform: [{
-                                    rotateZ: uploadingIndicatorAngle.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: ["0deg", "360deg"]
-                                    })
-                                }]
-                            }]} />
+                            <Animated.View style={[styles.uploadingIndicator, { transform: [{ rotateZ: uploadingIndicatorAngle.interpolate({
+                                inputRange: [ 0, 1 ],
+                                outputRange: [ "0deg", "360deg" ]
+                            }) }] }]} />
                         </View>
                         <Text style={styles.uploadingText}>Uploading Forms...</Text>
                     </View>

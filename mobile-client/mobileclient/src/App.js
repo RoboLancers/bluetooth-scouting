@@ -15,7 +15,7 @@ import { faBinoculars, faCloudArrowUp, faFileCode, faGear } from "@fortawesome/f
 
 import SplashScreen from "react-native-splash-screen"
 
-import { enableBluetooth, start } from "react-native-ble-manager"
+import { start } from "react-native-ble-manager"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
@@ -24,11 +24,6 @@ import { screen, colors } from "./constants"
 const App = () => {
     const Tab = createBottomTabNavigator()
 
-    enableBluetooth().then(() => {
-        console.log("ANDROID: Enabled Bluetooth")
-    }).catch((e) => {
-        console.error(e)
-    })
     start().then(() => {
         SplashScreen.hide()
     })

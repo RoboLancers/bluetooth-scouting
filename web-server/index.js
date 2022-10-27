@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
-import bleno from "@abandonware/bleno"
+import bleno from "bleno"
 import express from "express"
 
-import schema from "./schema.json" assert { type: "json" };
+import schema from "./schema.json"
 
 const uploadForms = (forms) => {
   forms.forEach((form) => {
@@ -106,7 +106,10 @@ const bootstrap = async () => {
 }
 
 bootstrap()
-  
+  // why disconnect on server created?
+  .then(async () => {
+    await prisma.$disconnect()
+  })
   .catch(async (e) => {
     console.error(e)
     await prisma.$disconnect()
