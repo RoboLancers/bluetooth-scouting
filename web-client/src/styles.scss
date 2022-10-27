@@ -1,3 +1,10 @@
+$white: rgb(245, 245, 245);
+$grey: rgb(220, 220, 220);
+$dark: rgb(90, 90, 90);
+$black: rgb(20, 20, 20);
+$crimson: rgb(184, 1, 0);
+$pink: rgb(250, 180, 180);
+
 @font-face {
     font-family: RobotoRegular;
     src: url(./assets/fonts/Roboto/Roboto-Regular.ttf)
@@ -8,120 +15,262 @@
     src: url(./assets/fonts/Roboto/Roboto-Bold.ttf)
 }
 
+@font-face {
+    font-family: RobotoItalic;
+    src: url(./assets/fonts/Roboto/Roboto-Italic.ttf)
+}
+
 * {
     font-family: RobotoRegular;
 }
 
-#statistics {
-
+body {
+    background-color: $white;
 }
 
-.schema-tools {
-    body {
-        background-color: white;
+h1 {
+    font-family: RobotoBold;
+    text-align: center;
+    color: $crimson;
+    margin: 50px 0;
+}
+
+h2 {
+    font-family: RobotoBold;
+    margin: 0;
+    text-align: center;
+    color: $black;
+    user-select: none;
+}
+
+.toggle-icon {
+    margin-left: 20px;
+}
+
+section {
+    width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: $grey;
+    border-radius: 10px;
+}
+
+.teams-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    justify-content: space-between;
+    text-align: center;
+    padding-bottom: 0;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 236px;
+    background-color: $white;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border: 2px solid $crimson;
+    border-radius: 10px;
+
+    .summary-input {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding: 0 10px;
+
+        .summary-key {
+            color: $black;
+        }
+
+        .summary-value {
+            position: relative;
+            font-family: RobotoBold;
+            color: $crimson;
+        }
+
+        .multi-input-value-container {
+            display: none;
+        }
+
+        .summary-value:hover .multi-input-value-container {
+            display: block;
+            position: absolute;
+            top: 20px;
+            width: 300px;
+            background-color: $white;
+            border: 2px solid $crimson;
+            border-radius: 10px;
+            box-shadow: 0 0 24px $dark;
+            font-size: 16px;
+            color: $black;
+            white-space: normal;
+            text-align: left;
+            z-index: 1000;
+
+            li {
+                margin-bottom: 10px;
+            }
+
+            li:last-of-type {
+                margin-bottom: 0;
+            }
+        }
     }
-    
-    h1 {
-        font-family: RobotoBold;
-        text-align: center;
-        margin: 50px 0;
-    }
-    
-    h2 {
-        font-family: RobotoBold;
-    }
-    
-    section {
-        width: 500px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: rgb(240, 240, 240);
-        border-radius: 10px;
-    }
-    
-    .action-container {
+}
+
+.filters-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: scroll;
+
+    .filter {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-around;
-        width: 220px;
-        height: 40px;
-        margin: auto;
-        margin-bottom: 20px;
-        padding: 20px 40px;
+        margin-left: 20px;
+        padding: 5px;
+        background-color: $white;
         border-radius: 10px;
-        background-color: rgb(244, 89, 112);
 
-        .action-text {
-            display: inline;
+        .filter-param {
+            width: 40px;
+            height: 16px;
+            border: 2px solid $crimson;
+            border-radius: 10px;
+            padding: 10px;
+            margin-right: 5px;
+            color: $black;
+            text-align: center;
+        }
+
+        .filter-param:last-of-type {
+            margin-right: 0;
+        }
+
+        .delete-filter {
+            color: $crimson;
+            font-size: 15px;
+            margin: 0 15px;
         }
     }
-    
-    .form-question-container {
-        position: relative;
-        width: 400px;
-        padding: 20px;
-        margin: 20px auto;
-        border-radius: 10px;
-        border: 2px solid rgb(244, 89, 112);
-        background-color: white;
 
-        .form-question-type-container {
-            display: flex;
-            flex-direction: row;
-        }
-        
-        .form-question-type-selector {
-            margin-left: 20px;
-        }
-        
-        .delete-form-question {
-            position: absolute;
-            font-size: 18px;
-            right: 20px;
-            color: rgb(244, 89, 112);
-        }
-        
-        .option-container {
-            margin-top: 20px;
-        }
-        
-        .option-container-name {
-            margin-bottom: 10px;
-        }
-        
-        hr {
-            margin: 30px 0;
-            border-width: 0;
-            border-bottom-width: 1px;
-            border-color: rgb(244, 89, 112);
-        }
-    }
-    
-    .form-question-container:first-of-type {
-        margin-top: 40px;
-    }
-
-    input {
-        width: 300px;
-        height: 40px;
-        border: 2px solid rgb(244, 89, 112);
+    .add-filter {
+        flex-shrink: 0;
+        width: 120px;
+        height: 20px;
+        padding: 15px;
+        background-color: $white;
         border-radius: 10px;
-        padding: 10px;
-    }
-
-    .json {
-        width: 476px;
-        border: 2px solid rgb(244, 89, 112);
-        border-radius: 10px;
-        padding: 10px;
+        font-size: 18px;
+        color: $crimson;
+        text-align: center;
     }
 }
 
-#upload-schema {
-
+h3 {
+    font-family: RobotoBold;
+    color: $black;
+    margin-bottom: 10px 0;
 }
 
-#settings {
+label {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-family: RobotoItalic;
+    color: $black;
+}
 
+.action-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 220px;
+    height: 40px;
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 20px 40px;
+    border-radius: 10px;
+    color: $grey;
+    background-color: $crimson;
+
+    .action-text {
+        display: inline;
+    }
+}
+
+.form-question-container {
+    position: relative;
+    width: 400px;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    border: 2px solid $crimson;
+    background-color: $white;
+
+    .form-question-type-container {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .form-question-type-selector {
+        margin-left: 20px;
+    }
+    
+    .delete-form-question {
+        position: absolute;
+        font-size: 18px;
+        right: 20px;
+        color: $crimson;
+    }
+    
+    .option-container {
+        margin-top: 20px;
+    }
+    
+    .option-container-name {
+        margin-bottom: 10px;
+    }
+    
+    hr {
+        margin: 30px 0;
+        border-width: 0;
+        border-bottom-width: 1px;
+        border-color: $crimson;
+    }
+}
+
+.form-question-container:first-of-type {
+    margin-top: 40px;
+}
+
+input {
+    width: 378px;
+    height: 40px;
+    border: 2px solid $crimson;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    color: $black;
+}
+
+.wide-input {
+    width: 476px;
+}
+
+.json {
+    width: 476px;
+    border: 2px solid $crimson;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 10px;
+    font-family: RobotoItalic;
+    color: $black;
 }

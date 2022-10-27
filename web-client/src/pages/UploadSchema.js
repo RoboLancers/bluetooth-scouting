@@ -41,13 +41,13 @@ const UploadSchemaPage = () => {
     }
 
     return (
-        <div className="schema-tools">
+        <React.Fragment>
             <h1>Upload Schema</h1>
             <section>
                 <h2>Form Information</h2>
                 <div>
                     <h3>Form Id:</h3>
-                    <input type="text" value={id} onChange={onIdChange} />
+                    <input className={"wide-input"} type="text" value={id} onChange={onIdChange} />
                 </div>
                 <div>
                     <h3>Match Scout Form</h3>
@@ -62,7 +62,7 @@ const UploadSchemaPage = () => {
                 <div className={"action-text"}>Upload</div>
                 <FontAwesomeIcon icon={faCloudArrowUp} />
             </div>
-        </div>
+        </React.Fragment>
     )
 }
 

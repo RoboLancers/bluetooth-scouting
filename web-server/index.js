@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 import bleno from "bleno"
 import express from "express"
+import cors from "cors"
 import { resolve } from "path"
 import { readFileSync, writeFileSync } from "fs"
 
@@ -10,13 +11,13 @@ const uploadForms = (forms) => {
   console.log(forms)
 
   forms.forEach((form) => {
-    prisma.form.findFirst({ where: { id: form.id } }).then((found) => {
+    prisma.form.findUnique({ where: { id: form.id } }).then((found) => {
       if(found == null){
-        prisma.form.create({ data: {
+         prisma.form.create({ data: {
           id: form.id,
           type: form.type,
           inputs: JSON.stringify(form.inputs)
-        }})
+        }}).then(() => {})
       }
     })
   })
@@ -88,6 +89,7 @@ const bootstrap = async () => {
 
   app.use(express.json())
   app.use(express.static(resolve("../web-client/build")))
+  app.use(cors())
 
   // post route to prevent accidental call from browser
   app.route("/delete").post((req, res) => {

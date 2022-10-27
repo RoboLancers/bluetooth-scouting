@@ -123,10 +123,11 @@ const GenerateSchemaPage = () => {
     })
 
     return (
-        <div className="schema-tools">
+        <React.Fragment>
             <h1>Generate Schema</h1>
             <section>
                 <h2>Form Questions</h2>
+                <label>(First question MUST be team name)</label>
                 {
                     formQuestionRenders
                 }
@@ -143,7 +144,7 @@ const GenerateSchemaPage = () => {
                     }
                 </div>
             </section>
-        </div>
+        </React.Fragment>
     )
 }
 
