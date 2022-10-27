@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react"
 
 import { TouchableWithoutFeedback, ScrollView, View, Text, StyleSheet } from "react-native"
 
-import Input from "../../components/Input"
+import Input from "../../components/input.js"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
