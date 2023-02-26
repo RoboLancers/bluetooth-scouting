@@ -79,13 +79,6 @@ const defaultSchema = () => ({
             step: 1
         },
         {
-            type: "slider",
-            title: "slider",
-            min: 0,
-            max: 10,
-            step: 1
-        },
-        {
             type: "text",
             title: "General Comments"
         },

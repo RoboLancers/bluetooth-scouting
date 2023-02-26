@@ -1,7 +1,7 @@
 const mergeForms = (forms) => {
     const teamInputs = []
     forms.forEach(form => {
-        const teamName = form[0].v
+        const teamName = form[1].v
 
         let teamIndex = teamInputs.findIndex(teamInput => teamInput["Team"] == teamName)
         

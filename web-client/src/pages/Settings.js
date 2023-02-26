@@ -7,7 +7,7 @@ const SettingsPage = () => {
         document.title = "Lancer Scout - Setting"
     }, [])
 
-    const deleteAllForms = () => axios.post("/delete")
+    const deleteAllForms = () => axios.post("http://localhost:8080/delete")
 
     return (
         <React.Fragment>

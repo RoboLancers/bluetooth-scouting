@@ -16,7 +16,7 @@ const MatchStatisticsPage = () => {
     useEffect(() => {
         document.title = "Lancer Scout - Match Statistics"
 
-        axios.get("/forms").then(({ data }) => setForms(mergeForms(data.filter(form => form.type == "Match").map(form => JSON.parse(form.inputs)))))
+        axios.get("http://localhost:8080/forms").then(({ data }) => setForms(mergeForms(data.filter(form => form.type == "Match").map(form => JSON.parse(form.inputs)))))
     }, [])
 
     const [showTeamSummaries, setShowTeamSummaries] = useState(false)

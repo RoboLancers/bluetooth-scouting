@@ -88,7 +88,8 @@ const SchemaPage = ({ navigation }) => {
         })
 
         bleEmitter.addListener("BleManagerDiscoverPeripheral", (device) => {
-            devices_[device.name] = device.id
+            const name = device.hasOwnProperty("name") ? device.name : "Server"
+            devices_[name] = device.id
             setDevices({...devices_})
         })
         
@@ -136,6 +137,9 @@ const SchemaPage = ({ navigation }) => {
                 retrieving && (
                     <View style={styles.retrievingBarContainer}>
                         <View style={styles.retrievingIndicatorContainer}>
+                            {
+                                // TODO: fix this shitty animation
+                            }
                             <Animated.View style={[styles.retrievingIndicator, { transform: [{ rotateZ: retrievingIndicatorAngle.interpolate({
                                 inputRange: [ 0, 1 ],
                                 outputRange: [ "0deg", "360deg" ]

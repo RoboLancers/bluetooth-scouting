@@ -69,6 +69,7 @@ bleno.on("advertisingStart", (err) => {
                   instreamWriteBuffer = ""
                 } catch(_){}
               }
+              console.log(instreamWriteBuffer)
               callback(bleno.Characteristic.RESULT_SUCCESS)
             }
           }),
@@ -84,7 +85,7 @@ bleno.on("advertisingStart", (err) => {
   }
 })
 
-const bootstrap = async () => {
+const init = async () => {
   const app = express()
 
   app.use(express.json())
@@ -123,8 +124,7 @@ const bootstrap = async () => {
   app.listen(8080, () => console.log("\nRunning Lancer Scout Server\n"))
 }
 
-bootstrap()
-  // why disconnect on server created?
+init()
   .then(async () => {
     await prisma.$disconnect()
   })

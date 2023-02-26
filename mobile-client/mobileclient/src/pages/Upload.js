@@ -59,7 +59,8 @@ const UploadPage = ({ navigation }) => {
 
     useEffect(() => {
         bleEmitter.addListener("BleManagerDiscoverPeripheral", (device) => {
-            devices_[device.name] = device.id
+            const name = device.hasOwnProperty("name") ? device.name : "Server"
+            devices_[name] = device.id
             setDevices({...devices_})
         })
 

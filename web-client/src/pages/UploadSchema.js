@@ -24,7 +24,7 @@ const UploadSchemaPage = () => {
             const matchFormJSON = JSON.parse(matchForm)
             const pitFormJSON = JSON.parse(pitForm)
 
-            axios.post("/schema", {
+            axios.post("http://localhost:8080/schema", {
                 schema: {
                     id,
                     matchForm: matchFormJSON,
@@ -32,7 +32,8 @@ const UploadSchemaPage = () => {
                 }
             }).then(() => {
                 alert("Successfully uploaded new schema to the server and archived existing schema.")
-            }).catch(() => {
+            }).catch((e) => {
+                console.log(e)
                 alert("Failed to connect to server, make sure it is running.")
             })
         } catch(e){

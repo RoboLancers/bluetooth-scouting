@@ -56,10 +56,7 @@ const SettingsPage = () => {
     return (
         <ScrollView style={styles.container}>
             <ToggleableInfo label={"Privacy Policy"}>
-                TODO
-            </ToggleableInfo>
-            <ToggleableInfo label={"Terms and Conditions"}>
-                TODO
+                Scouting data is recorded and uploaded entirely at your discretion. No other data is collected by using this app.
             </ToggleableInfo>
             <TouchableWithoutFeedback onPress={clearScoutingData}>
                 <View style={styles.buttonContainer}>

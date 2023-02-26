@@ -2,7 +2,7 @@ import React from "react"
 
 const DefaultPage = () => {
     return (
-        null
+        <h1>Hello Lancer Scout Client</h1>
     )
 }
 

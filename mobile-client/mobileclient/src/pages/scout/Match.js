@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react"
 
 import { TouchableWithoutFeedback, ScrollView, View, Text, StyleSheet } from "react-native"
 
-import Input from "../../components/Input"
+import Input from "../../components/input"
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 
@@ -18,6 +18,8 @@ const MatchPage = ({ navigation }) => {
 
     const rawKeyboardHeight = 80 // hardcoded since dynamic one causes internal memory leak
     const keyboardHeight = Math.max(0, rawKeyboardHeight - (70 + screen.bottom))
+
+    const [scrollable, setScrollable] = useState(true)
 
     useEffect(() => {
         const storage = new Storage()
@@ -112,7 +114,7 @@ const MatchPage = ({ navigation }) => {
     const inputRenders = []
     inputState.forEach((item, index) => {
         inputRenders.push(
-            <Input key={index} value={item} setValue={value => setInput(index, value)} {...form[index]} />
+            <Input key={index} value={item} setValue={value => setInput(index, value)} {...form[index]} setScrollable={setScrollable} />
         )
     })
 
@@ -123,7 +125,7 @@ const MatchPage = ({ navigation }) => {
                     <ScrollView style={styles.linksContainer} contentContainerStyle={{ paddingRight: 10 }} horizontal showsHorizontalScrollIndicator={false} children={linkRenders} />
                 ) : <View style={{ height: 1, backgroundColor: colors.crimson }} />
             }
-            <ScrollView ref={ref} style={styles.inputsContainer} showsVerticalScrollIndicator={false}>
+            <ScrollView ref={ref} style={styles.inputsContainer} showsVerticalScrollIndicator={false} scrollEnabled={scrollable}>
                 {
                     inputRenders
                 }
