@@ -28,7 +28,9 @@ export const scoutGPT = async (prompt) => {
     const openai = new OpenAIApi(configuration);
 
 
-    const data = (await prisma.form.findMany())
+    const data = (await prisma.form.findMany({
+        take: 10
+    }))
     const stringifedData = data.map((form) => `${form.id}, ${form.inputs}, ${form.type}`).toString()
 
 
