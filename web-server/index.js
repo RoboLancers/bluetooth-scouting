@@ -1,32 +1,39 @@
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient()
+
 import bleno from "bleno"
 import express from "express"
 import cors from "cors"
 import { resolve } from "path"
 import { readFileSync, writeFileSync } from "fs"
+import { scoutGPT } from "./scoutGPT.js"
+import { prisma } from "./db.js"
+import './fetch-polyfill.js'
+
+
 
 const uploadForms = (forms) => {
   console.log("\nuploaded forms:\n")
   console.log(forms)
 
+
   forms.forEach((form) => {
     prisma.form.findUnique({ where: { id: form.id } }).then((found) => {
-      if(found == null){
-         prisma.form.create({ data: {
-          id: form.id,
-          type: form.type,
-          inputs: JSON.stringify(form.inputs)
-        }}).then(() => {})
+      if (found == null) {
+        prisma.form.create({
+          data: {
+            id: form.id,
+            type: form.type,
+            inputs: JSON.stringify(form.inputs)
+          }
+        }).then(() => { })
       }
     })
   })
 }
 
 bleno.on("stateChange", (state) => {
-  if(state == "poweredOn"){
-    bleno.startAdvertising("lancer-scout", [ "0425b4beebba490396d08663974f2123" ], (err) => {
-      if(err){
+  if (state == "poweredOn") {
+    bleno.startAdvertising("lancer-scout", ["0425b4beebba490396d08663974f2123"], (err) => {
+      if (err) {
         console.warn(err)
       }
     })
@@ -36,19 +43,19 @@ bleno.on("stateChange", (state) => {
 })
 
 bleno.on("advertisingStart", (err) => {
-  if(err){
+  if (err) {
     console.warn(err)
   } else {
     let instreamWriteBuffer = ""
 
     const schemaString = readFileSync("./schemas/schema.json", "utf8")
     const schemaChunkCharacteristics = []
-    for(let i = 0;i<Math.ceil(schemaString.length / 23);i++){
+    for (let i = 0; i < Math.ceil(schemaString.length / 23); i++) {
       const chunkIndexString = new Array(4 - i.toString().length).fill("0").join("") + i.toString()
       const chunkBuffer = Buffer.from(schemaString.slice(23 * i, 23 * (i + 1)))
       schemaChunkCharacteristics.push(new bleno.Characteristic({
         uuid: "19995b5d7e8e42119e3f38428d42" + chunkIndexString,
-        properties: [ "read" ],
+        properties: ["read"],
         value: chunkBuffer
       }))
     }
@@ -59,15 +66,15 @@ bleno.on("advertisingStart", (err) => {
         characteristics: [
           new bleno.Characteristic({
             uuid: "d6dde2c2-71c349079232de076f48f8a9",
-            properties: [ "write", "writeWithoutResponse" ],
+            properties: ["write", "writeWithoutResponse"],
             onWriteRequest: (data, offset, withoutResponse, callback) => {
               instreamWriteBuffer += data.toString().replace(/\x19/g, "'")
-              if(instreamWriteBuffer.length != 0 && instreamWriteBuffer.endsWith("]")){
+              if (instreamWriteBuffer.length != 0 && instreamWriteBuffer.endsWith("]")) {
                 try {
                   const instreamWriteObject = JSON.parse(instreamWriteBuffer)
                   uploadForms(instreamWriteObject)
                   instreamWriteBuffer = ""
-                } catch(_){}
+                } catch (_) { }
               }
               console.log(instreamWriteBuffer)
               callback(bleno.Characteristic.RESULT_SUCCESS)
@@ -75,7 +82,7 @@ bleno.on("advertisingStart", (err) => {
           }),
           new bleno.Characteristic({
             uuid: "95df9c18c01d489eaf1863df799ae7d3",
-            properties: [ "read" ],
+            properties: ["read"],
             value: Buffer.from(schemaChunkCharacteristics.length.toString())
           }),
           ...schemaChunkCharacteristics
@@ -115,6 +122,26 @@ const init = async () => {
     writeFileSync("./schemas/schema" + Date.now().toString() + ".json", currentSchema)
     writeFileSync("./schemas/schema.json", JSON.stringify(req.body.schema))
     res.send("posted")
+  })
+
+  app.route("/scout-gpt").post(async (req, res) => {
+    const { body } = req
+
+    if (!body.prompt) {
+      return res.status(400).json({
+        error: "No prompt provided."
+      })
+
+  
+    }
+
+    const response = await scoutGPT(body.prompt)
+
+    return res.status(200).json({
+      scoutGPT: response
+    })
+
+
   })
 
   app.route("*").get((req, res) => {
