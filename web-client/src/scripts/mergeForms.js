@@ -1,18 +1,18 @@
-const mergeForms = (forms) => {
+const mergeForms = (forms, teamNameKey) => {
     const teamInputs = []
     forms.forEach(form => {
-        const teamName = form[1].v
+        const teamName = form.find(teamInput => teamInput.t == teamNameKey).v
 
-        let teamIndex = teamInputs.findIndex(teamInput => teamInput["Team"] == teamName)
+        const teamIndex = teamInputs.findIndex(teamInput => typeof teamInput[teamNameKey] == "string" ? teamInput[teamNameKey] == teamName : teamInput[teamNameKey][0] == teamName)
         
         if(teamIndex == -1){
-            const mergedTeam = { "Team": teamName }
-            form.slice(1).forEach(input => {
+            const mergedTeam = {}
+            form.forEach(input => {
                 mergedTeam[input.t] = [ input.v ]
             })
             teamInputs.push(mergedTeam)
         } else {
-            form.slice(1).forEach(input => {
+            form.forEach(input => {
                 if(teamInputs[teamIndex].hasOwnProperty(input.t)){
                     teamInputs[teamIndex][input.t].push(input.v)
                 } else {
@@ -23,12 +23,10 @@ const mergeForms = (forms) => {
     })
 
     const merged = []
+
     teamInputs.forEach(teamInput => {
-        const inputArray = [{
-            title: "Team",
-            value: teamInput["Team"]
-        }]
-        Object.keys(teamInput).slice(1).forEach(inputField => {
+        const inputArray = []
+        Object.keys(teamInput).forEach(inputField => {
             let fieldValue = teamInput[inputField]
 
             if(fieldValue.every(value => value == fieldValue[0])){

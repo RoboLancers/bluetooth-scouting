@@ -1,0 +1,159 @@
+[
+    {
+        "type": "header",
+        "title": "Pregame"
+    },
+    {
+        "type": "text",
+        "title": "Scout Name"
+    },
+    {
+        "type": "number",
+        "title": "Match Number"
+    },
+    {
+        "type": "dropdown",
+        "title": "Team Name",
+        "options":["Cheesy Poofs", "Robolancers the Greatest Team Ever"]
+    },
+    {
+        "type": "dropdown",
+        "title": "Alliance Color",
+        "options":["Red", "Blue"]
+    },
+    {
+        "type": "header",
+        "title": "Auto"
+    },
+    {
+        "type": "toggle",
+        "title": "Left Community?"
+    },
+    {
+        "type": "dropdown",
+        "title": "Cones Scored",
+        "options":["Top Node", "Middle Node", "Low Node", "None"]
+    },
+    {
+        "type": "dropdown",
+        "title": "Cubes Scored",
+        "options":["Top Shelf", "Middle Shelf", "Low Shelf", "None"]
+    },
+    {
+        "type": "dropdown",
+        "title": "Scored on Charge Station?",
+        "options":["Engaged", "Docked", "None"]
+    },
+    {
+        "type": "dropdown",
+        "title": "Lane",
+        "options":["Bump", "Charge", "No Bump"]
+    },
+    {
+        "type": "header",
+        "title": "Teleop"
+    },
+    {
+        "type":"dropdown",
+        "title":"Cycle Time",
+        "options":["No Cycles", "Slow", "Medium", "Fast"]
+    },
+    {
+        "type": "number",
+        "title": "High Node Cones"
+    },
+    {
+        "type": "number",
+        "title": "Middle Node Cones"
+    },
+    {
+        "type": "number",
+        "title": "Low Node Cones"
+    },
+    {
+        "type": "number",
+        "title": "High Shelf Cubes"
+    },
+    {
+        "type": "number",
+        "title": "Middle Shelf Cubes"
+    },
+    {
+        "type": "number",
+        "title": "Low Shelf Cubes"
+    },
+    {
+        "type": "header",
+        "title": "Endgame"
+    },
+    {
+        "type": "dropdown",
+        "title": "Charging Time",
+        "options":["None", "Slow", "Medium", "Fast"]
+    },
+    {
+        "type": "toggle",
+        "title": "Slipped?"
+    },
+    {
+        "type": "dropdown",
+        "title": "Scored on Charge Station?",
+        "options":["Engaged", "Docked", "None"]
+    },
+    {
+        "type": "header",
+        "title": "Postgame"
+    },
+    {
+        "type": "number",
+        "title": "Links Scored by Alliance"
+    },
+    {
+        "type": "number",
+        "title": "Alliance Score"
+    },
+    {
+        "type": "number",
+        "title": "Opposing Alliance Score"
+    },
+    {
+        "type": "number",
+        "title": "Ranking Points"
+    },
+    {
+        "type": "slider",
+        "title": "Quality of Defense"
+    },
+    {
+        "type": "slider",
+        "title": "Quality under Defense"
+    },
+    {
+        "type": "toggle",
+        "title": "Broke Down?"
+    },
+    {
+        "type": "number",
+        "title": "Penalties"
+    },
+    {
+        "type": "slider",
+        "title": "Speed"
+    },
+    {
+        "type": "slider",
+        "title": "Driver Skill"
+    },
+    {
+        "type": "text",
+        "title": "Weaknesses"
+    },
+    {
+        "type": "text",
+        "title": "Routes"
+    },
+    {
+        "type": "text",
+        "title": "Other Comments"
+    }
+]

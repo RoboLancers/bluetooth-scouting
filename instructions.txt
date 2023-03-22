@@ -1,0 +1,6 @@
+For Tasnim or Manny
+
+if you ever need to restart the bluetooth responder and server (one at a time in the terminal, h aàit enter):
+
+cd web-server
+npm start

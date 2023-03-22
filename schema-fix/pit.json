@@ -1,0 +1,113 @@
+[
+    {
+        "type": "header",
+        "title": "General"
+    },
+    {
+        "type": "dropdown",
+        "title": "Team Name",
+        "options":["102 Gearheads", "103 Cybersonics", "203 SOUPer Bots", "321 Robolancers", "341 Miss Daisy", "423 Simple Machines", "433 Firebirds", "486 Positronic Panthers", "708 Hatters Robotics", "709 Femme Tech Fatale", "834 SparTechs", "1168 Malvern Robotics", "1218 SCH Robotics", "1640 Sab-BOT-age", "1712 Dawgma", "2095 Direct Current", "2234 Alternating Current", "2539 Krypton Cougars", "2720 Red Watch Robotics", "2722 Charge Robotics", "4342 Demon Robotics", "4373 RooRobotics", "4575 Gemini", "5181 Explorer Robotics", "5401 Fightin' Robotic Owls", "5407 Wolfpack Robotics", "6808 William Tennent Robotics", "8771 PioTech", "9014 Vulcan Mechanics", "9027 PATH to Domination", "9094"]
+    },
+    {
+        "type": "text",
+        "title": "Scout Name"
+    },
+    {
+        "type":"header",
+        "title":"Drivetrain"
+    },
+    {
+        "type":"dropdown",
+        "title":"Drivetrain Type",
+        "options":["Differential (Default)", "Swerve", "Mecanum"]
+    },
+    {
+        "type":"number",
+        "title":"Robot Width (in)"
+    },
+    {
+        "type":"number",
+        "title":"Wheel Count"
+    },
+    {
+        "type": "header",
+        "title": "Arm"
+    },
+    {
+        "type": "text",
+        "title":"Arm Design Style"
+    },
+    {
+        "type":"dropdown",
+        "title":"Preferred Pickup Method",
+        "options":["Ground", "Substation", "Either", "Other (Explain)"]
+    },
+    {
+        "type":"dropdown",
+        "title":"Reachable Rows",
+        "options":["All Rows", "High and Middle", "Middle and Low", "Low"]
+    },
+    {
+        "type": "text",
+        "title": "Arm Comments"
+    },
+    {
+        "type": "header",
+        "title": "Grabber"
+    },
+    {
+        "type":"text",
+        "title":"Grabber Design Style"
+    },
+    {
+        "type": "toggle",
+        "title": "Can Pick Up Cube"
+    },
+    {
+        "type": "dropdown",
+        "title": "Cone Pickup Orientation",
+        "options": [ "No Cone Pickup", "Upright", "Tipped Over", "Any Orientation" ]
+    },
+    {
+        "type": "text",
+        "title": "Grabber Comments"
+    },
+    {
+        "type": "header",
+        "title": "Auto"
+    },
+    {
+        "type":"toggle",
+        "title":"Can Leave Community"
+    },
+    {
+        "type":"toggle",
+        "title":"Can Score Cube in Auto"
+    },
+    {
+        "type":"toggle",
+        "title":"Can Score Cone in Auto"
+    },
+    {
+        "type":"dropdown",
+        "title":"Scoreable Locations in Auto",
+        "options":["All Rows", "High and Middle", "Middle and Low", "Low"]
+    },
+    {
+        "type":"toggle",
+        "title":"Can Dock"
+    },
+    {
+        "type":"toggle",
+        "title":"Can Charge"
+    },
+    {
+        "type":"dropdown",
+        "title":"Preferred Lane",
+        "options":["Bump", "No Bump", "Charge"]
+    },
+    {
+        "type": "text",
+        "title": "Auto Comments"
+    }
+]
